@@ -477,7 +477,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.6
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -718,7 +718,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   name: Level1
-  tiles:
+  tilesCard:
   - {fileID: 11400000, guid: 90f37fadcacd5f445bcc02ed00714f9f, type: 2}
   - {fileID: 11400000, guid: b8060343750218942b2a99262b085e52, type: 2}
   tailValue: 0f00000009000000

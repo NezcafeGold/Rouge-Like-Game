@@ -5,7 +5,7 @@ public class Level : MonoBehaviour
 {
     [SerializeField]private int id;
     [SerializeField]private string name;
-    [SerializeField]private Tile[] tiles;
+    [SerializeField]private TileCard[] tilesCard;
     [SerializeField]private int[] tailValue;
 
     public int Id
@@ -20,10 +20,10 @@ public class Level : MonoBehaviour
         set { name = value; }
     }
 
-    public Tile[] Tiles
+    public TileCard[] TilesCard
     {
-        get { return tiles; }
-        set { tiles = value; }
+        get { return tilesCard; }
+        set { tilesCard = value; }
     }
 
     public int[] TailValue

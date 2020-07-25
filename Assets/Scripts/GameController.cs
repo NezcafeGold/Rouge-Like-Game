@@ -51,11 +51,11 @@ public class GameController : MonoBehaviour
             {
                 var lvlScr = lvl.GetComponent<Level>();
                 int[] tileValues = lvlScr.TailValue;
-                Tile[] tiles = lvlScr.Tiles;
-                for (int i = 0; i < tiles.Length; i++)
+                TileCard[] tilesCard = lvlScr.TilesCard;
+                for (int i = 0; i < tilesCard.Length; i++)
                 {
                     int tileV = tileValues[i];
-                    Tile tile = tiles[i];
+                    TileCard tileCard = tilesCard[i];
                     int j = 0;
                     while (j < tileV)
                     {
@@ -63,9 +63,9 @@ public class GameController : MonoBehaviour
                         var x = Random.Range(0, SIDE_SIZE);
                         var y = Random.Range(0, SIDE_SIZE);
                         var gridCellScr = gridField[x, y].GetComponent<GridCell>();
-                        if (gridCellScr.tile == null && !gridCellScr.PlayerIsHere)
+                        if (gridCellScr.tileCard == null && !gridCellScr.PlayerIsHere)
                         {
-                            gridCellScr.tile = tile;
+                            gridCellScr.tileCard = tileCard;
                             j++;
                             gridCellScr.UpdateDataTile();
                         }

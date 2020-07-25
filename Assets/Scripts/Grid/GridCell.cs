@@ -10,7 +10,7 @@ public class GridCell : MonoBehaviour
     private int yCord;
     private bool playerIsHere = false;
     private bool visited = false;
-    public Tile tile;
+    public TileCard tileCard;
     private Sprite openShirt;
 
     public bool isEnableToMove = true;
@@ -58,7 +58,7 @@ public class GridCell : MonoBehaviour
 
     public void UpdateDataTile()
     {
-        openShirt = tile.sprite;
+        openShirt = tileCard.sprite;
     }
 
     public void CheckTileShirt()
