@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(menuName = "Tail")]
+    [CreateAssetMenu(menuName = "Tile")]
     public class Tile : ScriptableObject
     {
         public int id;

@@ -323,7 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef053c77308e681438ffe531acc7772d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels: []
+  levels:
+  - {fileID: 1887668676}
   lvlName: Level1
 --- !u!1 &902137827
 GameObject:
@@ -717,10 +718,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   name: Level1
-  dictionaryTile:
+  tiles:
   - {fileID: 11400000, guid: 90f37fadcacd5f445bcc02ed00714f9f, type: 2}
   - {fileID: 11400000, guid: b8060343750218942b2a99262b085e52, type: 2}
-  tailValue: 0f0000000a000000
+  tailValue: 0f00000009000000
 --- !u!1 &2035196375
 GameObject:
   m_ObjectHideFlags: 0

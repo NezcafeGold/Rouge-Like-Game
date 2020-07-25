@@ -1,16 +1,17 @@
-﻿
+﻿using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class GridCell : MonoBehaviour
 {
-    [SerializeField] private Sprite shirtTile;
+    [SerializeField] private Sprite closedShirt;
     [SerializeField] private Sprite visitedTile;
     private int xCord;
     private int yCord;
     private bool playerIsHere = false;
-    public Tile tileData;
+    private bool visited = false;
+    public Tile tile;
+    private Sprite openShirt;
 
     public bool isEnableToMove = true;
     private GameObject player;
@@ -27,10 +28,16 @@ public class GridCell : MonoBehaviour
         set { yCord = value; }
     }
 
+    public bool PlayerIsHere
+    {
+        get { return playerIsHere; }
+        set { playerIsHere = value; }
+    }
+
     private void Start()
     {
         if (!playerIsHere)
-            gameObject.GetComponent<Image>().sprite = shirtTile;
+            gameObject.GetComponent<Image>().sprite = closedShirt;
         else
             gameObject.GetComponent<Image>().sprite = visitedTile;
     }
@@ -43,8 +50,20 @@ public class GridCell : MonoBehaviour
         playerIsHere = true;
     }
 
-    public void openTile()
+    public void visitTile()
     {
         gameObject.GetComponent<Image>().sprite = visitedTile;
+        visited = true;
+    }
+
+    public void UpdateDataTile()
+    {
+        openShirt = tile.sprite;
+    }
+
+    public void CheckTileShirt()
+    {
+        if (!visited)
+            gameObject.GetComponent<Image>().sprite = openShirt;
     }
 }
