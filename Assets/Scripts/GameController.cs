@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -11,6 +12,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject gridCell;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject levelController;
+    private string levelName;
     private GameObject[,] gridField;
 
     private const int SIDE_SIZE = 5;
@@ -36,18 +39,32 @@ public class GameController : MonoBehaviour
                 gridField[i, j] = cellObj;
             }
         }
-        setPlayerOnStartGame();
+        SetPlayerOnStartGame();
+        SetTilesData();
+
     }
 
-    private void setPlayerOnStartGame()
+    private void SetTilesData()
+    {
+        var lvlContrScr = levelController.GetComponent<LevelController>();
+        levelName = lvlContrScr.LvlName;
+        var levels = lvlContrScr.Levels;
+        foreach (Level lvl in levels)
+        {
+            if (levelName == lvl.Name)
+            {
+               var lvlScr = lvl.GetComponent<Level>();
+            }
+        }
+    }
+
+    private void SetPlayerOnStartGame()
     {
         Random.InitState((int)System.DateTime.Now.Ticks);
         var x = Random.Range(0, SIDE_SIZE);
         var y = Random.Range(0, SIDE_SIZE);
         var gridScript = gridField[x, y].GetComponent<GridCell>();
         gridScript.setPlayer(player);
-        
-
     }
 
     void Update()
@@ -86,6 +103,7 @@ public class GameController : MonoBehaviour
                 //TODO КОРУТИНА НА АНИМАЦИЮ
                 player.transform.SetParent(cellToMove.transform);
                 player.transform.localPosition = new Vector3(0,0,0);
+                cellToMove.GetComponent<GridCell>().openTile();
             }
         }
         catch (Exception e)

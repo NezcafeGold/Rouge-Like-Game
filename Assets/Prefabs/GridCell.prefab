@@ -113,3 +113,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e2a10bde5ce6534b9ec7cbd2073d1cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shirtTile: {fileID: 21300000, guid: fcd325056f78cd44697c8b193f360f77, type: 3}
+  visitedTile: {fileID: 21300000, guid: ca3347c774e47764498bc6f65d18daaa, type: 3}
+  isEnableToMove: 1
