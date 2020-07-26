@@ -10,11 +10,18 @@ public class GridCell : MonoBehaviour
     private int yCord;
     private bool playerIsHere = false;
     private bool visited = false;
-    public TileCard tileCard;
+    private TileCard tileCard;
     private Sprite openShirt;
 
     public bool isEnableToMove = true;
     private GameObject player;
+
+
+    public TileCard TileCard
+    {
+        get { return tileCard; }
+        set { tileCard = value; }
+    }
 
     public int XCord
     {
@@ -50,10 +57,18 @@ public class GridCell : MonoBehaviour
         playerIsHere = true;
     }
 
+    //When a player step on this cell
     public void visitTile()
     {
-        gameObject.GetComponent<Image>().sprite = visitedTile;
-        visited = true;
+        if (!visited)
+        {
+            gameObject.GetComponent<Image>().sprite = visitedTile;
+            visited = true;
+            gameObject.transform.parent.parent.Find("CardsPanel").GetComponent<CardsPanel>()
+                .ShowCardsFromTile(tileCard);
+
+        }
+        
     }
 
     public void UpdateDataTile()

@@ -15,3 +15,11 @@ MonoBehaviour:
   id: 2
   name: Strong
   sprite: {fileID: 21300000, guid: 2206354dba57aa441b71e3aaeb8c321c, type: 3}
+  tileCardWithType: 1
+  cardList:
+  - cardType: 0
+    card: {fileID: 11400000, guid: 73c26df013b3f8249a10f8d3a4e8200c, type: 2}
+    amount: 3
+  - cardType: 1
+    card: {fileID: 11400000, guid: b7e7b44174e0d774a933c73cc0d3bdb6, type: 2}
+    amount: 2

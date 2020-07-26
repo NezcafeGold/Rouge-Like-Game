@@ -1,12 +1,19 @@
-﻿using DefaultNamespace;
+﻿using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class Level : MonoBehaviour
 {
     [SerializeField]private int id;
     [SerializeField]private string name;
-    [SerializeField]private TileCard[] tilesCard;
-    [SerializeField]private int[] tailValue;
+
+    [SerializeField] private List<SctructTileTypeAmount> listOfTiles;
+
+    public List<SctructTileTypeAmount> ListOfTiles
+    {
+        get { return listOfTiles; }
+        set { listOfTiles = value; }
+    }
 
     public int Id
     {
@@ -20,15 +27,4 @@ public class Level : MonoBehaviour
         set { name = value; }
     }
 
-    public TileCard[] TilesCard
-    {
-        get { return tilesCard; }
-        set { tilesCard = value; }
-    }
-
-    public int[] TailValue
-    {
-        get { return tailValue; }
-        set { tailValue = value; }
-    }
 }

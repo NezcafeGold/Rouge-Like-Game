@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -50,22 +51,23 @@ public class GameController : MonoBehaviour
             if (levelName == lvl.Name)
             {
                 var lvlScr = lvl.GetComponent<Level>();
-                int[] tileValues = lvlScr.TailValue;
-                TileCard[] tilesCard = lvlScr.TilesCard;
-                for (int i = 0; i < tilesCard.Length; i++)
+                List<SctructTileTypeAmount> listCardAmount = lvlScr.ListOfTiles;
+
+                foreach (var cardAmount in listCardAmount)
                 {
-                    int tileV = tileValues[i];
-                    TileCard tileCard = tilesCard[i];
+                    int amount = cardAmount.amount;
+                    TileCard tileCard = cardAmount.tileCard;
+
                     int j = 0;
-                    while (j < tileV)
+                    while (j < amount)
                     {
                         Random.InitState((int) DateTime.Now.Ticks);
                         var x = Random.Range(0, SIDE_SIZE);
                         var y = Random.Range(0, SIDE_SIZE);
                         var gridCellScr = gridField[x, y].GetComponent<GridCell>();
-                        if (gridCellScr.tileCard == null && !gridCellScr.PlayerIsHere)
+                        if (gridCellScr.TileCard == null && !gridCellScr.PlayerIsHere)
                         {
-                            gridCellScr.tileCard = tileCard;
+                            gridCellScr.TileCard = tileCard;
                             j++;
                             gridCellScr.UpdateDataTile();
                         }
