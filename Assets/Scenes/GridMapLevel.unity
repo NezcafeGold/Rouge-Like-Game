@@ -946,6 +946,7 @@ MonoBehaviour:
     amount: 9
   enemies:
   - {fileID: 11400000, guid: 1789fb3a63ff89e4f88435b68097dc42, type: 2}
+  - {fileID: 11400000, guid: e1594cde425f31e4a9fc40879cc611e1, type: 2}
 --- !u!1 &1966532844
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,7 +983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.012476, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1280, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1966532846
