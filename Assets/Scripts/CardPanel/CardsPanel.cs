@@ -1,14 +1,9 @@
 ﻿using System.Collections;
-using System.Net.Mail;
-using System.Numerics;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
-using Quaternion = UnityEngine.Quaternion;
-using Vector2 = UnityEngine.Vector2;
-using Vector3 = UnityEngine.Vector3;
-
 
 public class CardsPanel : MonoBehaviour
 {
@@ -35,11 +30,11 @@ public class CardsPanel : MonoBehaviour
             {
                 var cardObj = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
                 
-                cardObj.GetComponent<CardScr>().SetType(sctruct.cardType);
-                if (cardObj.GetComponent<Image>().sprite == null)
-                {
-                    cardObj.GetComponent<Image>().sprite = sctruct.cardData.CardShirt;
-                }
+                  cardObj.GetComponent<CardScr>().SetType(sctruct.cardType);
+//                if (cardObj.GetComponent<Image>().sprite == null)
+//                {
+//                    cardObj.GetComponent<Image>().sprite = sctruct.cardData.CardShirt;
+//                }
                 cardObj.transform.SetParent(gameObject.transform, false);
             }
         }
@@ -79,6 +74,19 @@ public class CardsPanel : MonoBehaviour
         }
 
         Messenger.Broadcast(GameEvent.CHANGE_CARD_SHIRT);
+        List<Transform> list = transform.Cast<Transform>().ToList();
+        foreach (var tran in list)
+        {
+            tran.SetParent(null);
+        }
+
+        while (list.Count>0)
+        {
+            var tl = list[Random.Range(0, list.Count)];
+            tl.SetParent(transform);
+            list.Remove(tl);
+        }
+        
 
         angle = transform.eulerAngles.y;
         while (angle > 0f)

@@ -7,6 +7,8 @@ TagManager:
   - Level
   - CardPanel
   - CardsPanel
+  - CardShirt
+  - CardFace
   layers:
   - Default
   - TransparentFX
