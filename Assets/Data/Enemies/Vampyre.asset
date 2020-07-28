@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe56ac10f5d34fb090e3a858420d0103, type: 3}
-  m_Name: BattleCard
+  m_Script: {fileID: 11500000, guid: 0f5f08938b184443a29be2f61f5c0fab, type: 3}
+  m_Name: Vampyre
   m_EditorClassIdentifier: 
-  cardWithType: 0
-  cardShirt: {fileID: 21300000, guid: 4667a0f2e4ba84144904702f9e88a647, type: 3}
-  enemies:
-  - {fileID: 11400000, guid: 1789fb3a63ff89e4f88435b68097dc42, type: 2}
+  nameEnemy: 
+  spriteEnemy: {fileID: 0}
+  hpEnemy: 0
+  attackEnemy: 0

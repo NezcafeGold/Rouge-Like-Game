@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(menuName = "TileCard")]
+    [CreateAssetMenu(menuName = "TileCardData")]
     public class TileCard : ScriptableObject
     {
         public int id;

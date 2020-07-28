@@ -44,7 +44,8 @@ public class GameController : MonoBehaviour
     private void SetTilesData()
     {
         var lvlContrScr = levelController.GetComponent<LevelController>();
-        levelName = lvlContrScr.LvlName;
+        levelName = lvlContrScr.CurrentLevel.Name;
+        
         var levels = lvlContrScr.Levels;
         foreach (Level lvl in levels)
         {
@@ -121,6 +122,7 @@ public class GameController : MonoBehaviour
                 player.transform.SetParent(cellToMove.transform);
                 player.transform.localPosition = new Vector3(0, 0, 0);
                 cellToMove.GetComponent<GridCell>().visitTile();
+                Messenger.Broadcast(GameEvent.PLAYER_MOVE_ON_CELL, cellToMove.GetComponent<GridCell>()); //CardPanel.ShowCardsFromTile
             }
         }
         catch (Exception e)

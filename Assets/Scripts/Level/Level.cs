@@ -8,6 +8,7 @@ public class Level : MonoBehaviour
     [SerializeField]private string name;
 
     [SerializeField] private List<SctructTileTypeAmount> listOfTiles;
+    [SerializeField] private List<EnemyData> enemies;
 
     public List<SctructTileTypeAmount> ListOfTiles
     {
@@ -27,4 +28,9 @@ public class Level : MonoBehaviour
         set { name = value; }
     }
 
+    public List<EnemyData> Enemies
+    {
+        get { return enemies; }
+        set { enemies = value; }
+    }
 }

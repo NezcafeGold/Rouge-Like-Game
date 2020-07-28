@@ -1,9 +1,11 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(menuName = "Card")]
-    public class Card : ScriptableObject
+    [CreateAssetMenu(menuName = "CardData")]
+    public class CardData : ScriptableObject
     {
         [SerializeField] private CardType cardWithType;
         [SerializeField] private Sprite cardShirt;

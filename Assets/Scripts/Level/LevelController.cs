@@ -5,16 +5,11 @@ using UnityEngine;
 public class LevelController : MonoBehaviour
 {
     [SerializeField] private Level[] levels;
-    [SerializeField] private string lvlName;
+    [SerializeField] public  Level CurrentLevel;
 
     public Level[] Levels
     {
         get { return levels; }
     }
 
-    public string LvlName
-    {
-        get { return lvlName; }
-        set { lvlName = value; }
-    }
 }

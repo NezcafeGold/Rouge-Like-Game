@@ -347,7 +347,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Close
+  m_Text: Shuffle
 --- !u!222 &263476436
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levels:
   - {fileID: 1887668676}
-  lvlName: Level1
+  CurrentLevel: {fileID: 1887668676}
 --- !u!1 &902137827
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1099909146
 RectTransform:
   m_ObjectHideFlags: 0
@@ -548,7 +548,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099909145}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a13209ace00223b49bf0c31750d6801c, type: 3}
   m_Name: 
@@ -596,8 +596,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1099909147}
-        m_MethodName: DisableClick
+      - m_Target: {fileID: 1966532849}
+        m_MethodName: ShuffleCards
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -944,6 +944,8 @@ MonoBehaviour:
     amount: 15
   - tileCard: {fileID: 11400000, guid: b8060343750218942b2a99262b085e52, type: 2}
     amount: 9
+  enemies:
+  - {fileID: 11400000, guid: 1789fb3a63ff89e4f88435b68097dc42, type: 2}
 --- !u!1 &1966532844
 GameObject:
   m_ObjectHideFlags: 0

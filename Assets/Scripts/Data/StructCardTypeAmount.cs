@@ -8,14 +8,14 @@ namespace DefaultNamespace
     public struct StructCardTypeAmount
     {
         public CardType cardType;
-        public Card card;
+        public CardData cardData;
         public int amount;
 
-        public StructCardTypeAmount(CardType cardType, int amount, Card card)
+        public StructCardTypeAmount(CardType cardType, int amount, CardData cardData)
         {
             this.cardType = cardType;
             this.amount = amount;
-            this.card = card;
+            this.cardData = cardData;
         }
     }
 }

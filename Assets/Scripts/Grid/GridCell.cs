@@ -64,9 +64,6 @@ public class GridCell : MonoBehaviour
         {
             gameObject.GetComponent<Image>().sprite = visitedTile;
             visited = true;
-            gameObject.transform.parent.parent.Find("CardsPanel").GetComponent<CardsPanel>()
-                .ShowCardsFromTile(tileCard);
-
         }
         
     }
