@@ -2,7 +2,7 @@ namespace DefaultNamespace
 {
     public enum CardType
     {
-        BATTLE,
-        LOOT
+        ENEMY,
+        WEAPON,
     }
 }

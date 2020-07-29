@@ -16,10 +16,11 @@ public class CardScr : MonoBehaviour
 
     private Sprite faceOfCard;
 
-    private bool isRotatable = false;
+    private bool isRotatable;
 
     private CardType cardType;
     private EnemyData enemyData;
+    private WeaponData weaponData;
 
 
     public Sprite FaceOfCard
@@ -50,6 +51,12 @@ public class CardScr : MonoBehaviour
             shirtOfCard = value;
             gameObject.GetComponent<Image>().sprite = shirtOfCard;
         }
+    }
+
+    public WeaponData WeaponData
+    {
+        get { return weaponData; }
+        set { weaponData = value; }
     }
 
     private void Awake()
@@ -85,8 +92,11 @@ public class CardScr : MonoBehaviour
     public void RotateAndShowFace()
     {
         if (isRotatable)
+        {
             StartCoroutine(Rotate());
-        Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
+            Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
+        }
+            
     }
 
     private IEnumerator Rotate()
@@ -108,6 +118,7 @@ public class CardScr : MonoBehaviour
             transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
             yield return null;
         }
+
         isRotatable = false;
     }
 
@@ -115,13 +126,28 @@ public class CardScr : MonoBehaviour
     {
         try
         {
-            if (sctructCardType == CardType.BATTLE)
+            switch (sctructCardType)
             {
-                List<EnemyData> enemies = GameObject.Find("LevelController").GetComponent<LevelController>()
-                    .CurrentLevel
-                    .Enemies;
-                enemyData = enemies[Random.Range(0, enemies.Count)];
-                UpdateFaceCard();
+                case CardType.ENEMY:
+                {
+                    List<EnemyData> enemies = GameObject.Find("LevelController").GetComponent<LevelController>()
+                        .CurrentLevel
+                        .Enemies;
+                    enemyData = enemies[Random.Range(0, enemies.Count)];
+                    UpdateFaceCard(CardType.ENEMY);
+                    break;
+                }
+                case CardType.WEAPON:
+                {
+                    List<WeaponData> weapons = GameObject.Find("LevelController").GetComponent<LevelController>()
+                        .CurrentLevel
+                        .Weapons;
+                    weaponData = weapons[Random.Range(0, weapons.Count)];
+                    UpdateFaceCard(CardType.WEAPON);
+                    break;
+                }
+                default:
+                    break;
             }
         }
         catch (Exception e)
@@ -130,12 +156,26 @@ public class CardScr : MonoBehaviour
         }
     }
 
-    private void UpdateFaceCard()
+    private void UpdateFaceCard(CardType cardType)
     {
-        faceCard.GetComponent<Image>().sprite = enemyData.SpriteEnemy;
         var other = faceCard.transform.Find("Other");
-        other.Find("TextName").GetComponent<TextMeshProUGUI>().text = enemyData.NameEnemy;
-        other.Find("TextHp").GetComponent<TextMeshProUGUI>().text = enemyData.HpEnemy.ToString();
-        other.Find("TextAttack").GetComponent<TextMeshProUGUI>().text = enemyData.AttackEnemy.ToString();
+        switch (cardType)
+        {
+            case CardType.ENEMY:
+            {
+                faceCard.GetComponent<Image>().sprite = enemyData.SpriteEnemy;
+                other.Find("TextName").GetComponent<TextMeshProUGUI>().text = enemyData.NameEnemy;
+                other.Find("TextLeftAngle").GetComponent<TextMeshProUGUI>().text = enemyData.HpEnemy.ToString();
+                other.Find("TextRightAngle").GetComponent<TextMeshProUGUI>().text = enemyData.AttackEnemy.ToString();
+                break;
+            }
+            case CardType.WEAPON:
+            {
+                faceCard.GetComponent<Image>().sprite = weaponData.SpriteWeapon;
+                other.Find("TextName").GetComponent<TextMeshProUGUI>().text = weaponData.NameWeapon;
+                other.Find("TextRightAngle").GetComponent<TextMeshProUGUI>().text = weaponData.AttackWeapon.ToString();
+                break;
+            }
+        }
     }
 }

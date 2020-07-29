@@ -59,7 +59,7 @@ public class CardsPanel : MonoBehaviour
 
         while (spacing > -widht + 0.5f)
         {
-            spacing = Mathf.Lerp(defaultSpacing.x + 200, endingSpacing.x, Time.time / 2f);
+            spacing = Mathf.Lerp(defaultSpacing.x, endingSpacing.x, Time.fixedTime / 3f);
             gameObject.GetComponent<GridLayoutGroup>().spacing =
                 new Vector3(spacing, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
             yield return null;
@@ -68,11 +68,12 @@ public class CardsPanel : MonoBehaviour
         float angle = 0;
         while (angle < 90f)
         {
-            angle = Mathf.LerpAngle(angle, 91f, Time.time / 30);
+            angle = Mathf.LerpAngle(angle, 91f, Time.fixedTime / 200);
             transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
             yield return null;
         }
 
+        var euler = transform.eulerAngles;
         Messenger.Broadcast(GameEvent.CHANGE_CARD_SHIRT);
         List<Transform> list = transform.Cast<Transform>().ToList();
         foreach (var tran in list)
@@ -84,6 +85,7 @@ public class CardsPanel : MonoBehaviour
         {
             var tl = list[Random.Range(0, list.Count)];
             tl.SetParent(transform);
+            tl.transform.eulerAngles = euler;
             list.Remove(tl);
         }
         
@@ -91,7 +93,7 @@ public class CardsPanel : MonoBehaviour
         angle = transform.eulerAngles.y;
         while (angle > 0f)
         {
-            angle = Mathf.LerpAngle(angle, -1f, Time.time / 30);
+            angle = Mathf.LerpAngle(angle, -1f, Time.fixedTime / 200);
             transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
             yield return null;
         }
@@ -99,7 +101,7 @@ public class CardsPanel : MonoBehaviour
         var spacingCurrent = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
         while (spacingCurrent < defaultSpacing.x)
         {
-            spacingCurrent = Mathf.Lerp(spacingCurrent, defaultSpacing.x + 1f, Time.time / 120);
+            spacingCurrent = Mathf.Lerp(spacingCurrent, defaultSpacing.x + 1f, Time.fixedTime / 40f);
             gameObject.GetComponent<GridLayoutGroup>().spacing =
                 new Vector3(spacingCurrent, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
             yield return null;
