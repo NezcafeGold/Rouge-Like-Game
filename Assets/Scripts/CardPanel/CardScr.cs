@@ -13,10 +13,12 @@ public class CardScr : MonoBehaviour
 
     [SerializeField] private GameObject faceCard;
     [SerializeField] private GameObject shirtCard;
+    [SerializeField] private GameObject description;
 
     private Sprite faceOfCard;
 
     private bool isRotatable;
+    private bool isChosenCard;
 
     private CardType cardType;
     private EnemyData enemyData;
@@ -63,24 +65,28 @@ public class CardScr : MonoBehaviour
     {
         Messenger.AddListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.AddListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
+        Messenger.AddListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
     }
 
     private void Start()
     {
         shirtCard.SetActive(false);
-    }
-
-    private void BlockToRotate()
-    {
-        isRotatable = false;
+        description.SetActive(false);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.RemoveListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
+        Messenger.RemoveListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
+
     }
 
+    private void BlockToRotate()
+    {
+        isRotatable = false;
+    }
+    
     private void ChangeCardShirt()
     {
         if (!shirtCard.activeSelf)
@@ -91,13 +97,18 @@ public class CardScr : MonoBehaviour
 
     public void RotateAndShowFace()
     {
+        if (!description.activeSelf)
+            description.SetActive(true);
+        else description.SetActive(false);
         if (isRotatable)
         {
             StartCoroutine(Rotate());
+            isChosenCard = true;
             Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
+            Messenger.Broadcast(GameEvent.ACTIVE_ACCEPT_BUTTON);
         }
-            
     }
+
 
     private IEnumerator Rotate()
     {
@@ -146,8 +157,6 @@ public class CardScr : MonoBehaviour
                     UpdateFaceCard(CardType.WEAPON);
                     break;
                 }
-                default:
-                    break;
             }
         }
         catch (Exception e)
@@ -167,6 +176,7 @@ public class CardScr : MonoBehaviour
                 other.Find("TextName").GetComponent<TextMeshProUGUI>().text = enemyData.NameEnemy;
                 other.Find("TextLeftAngle").GetComponent<TextMeshProUGUI>().text = enemyData.HpEnemy.ToString();
                 other.Find("TextRightAngle").GetComponent<TextMeshProUGUI>().text = enemyData.AttackEnemy.ToString();
+                description.GetComponentInChildren<TextMeshProUGUI>().text = enemyData.Description;
                 break;
             }
             case CardType.WEAPON:
@@ -174,7 +184,21 @@ public class CardScr : MonoBehaviour
                 faceCard.GetComponent<Image>().sprite = weaponData.SpriteWeapon;
                 other.Find("TextName").GetComponent<TextMeshProUGUI>().text = weaponData.NameWeapon;
                 other.Find("TextRightAngle").GetComponent<TextMeshProUGUI>().text = weaponData.AttackWeapon.ToString();
+                description.GetComponentInChildren<TextMeshProUGUI>().text = weaponData.Description;
                 break;
+            }
+        }
+    }
+    
+    private void HandleChosenCard()
+    {
+        if (isChosenCard)
+        {
+            switch (cardType)
+            {
+                case CardType.WEAPON:
+                   // gameObject.transform.SetParent(null);
+                    break;
             }
         }
     }

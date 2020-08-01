@@ -9,6 +9,7 @@ TagManager:
   - CardsPanel
   - CardShirt
   - CardFace
+  - EquipInventory
   layers:
   - Default
   - TransparentFX

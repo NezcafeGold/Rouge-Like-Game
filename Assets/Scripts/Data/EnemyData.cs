@@ -9,11 +9,18 @@ namespace DefaultNamespace
       [SerializeField]  private Sprite spriteEnemy;
       [SerializeField]  private int hpEnemy;
       [SerializeField]  private int attackEnemy;
+      [SerializeField]  private string description = "";
 
       public string NameEnemy
       {
           get { return nameEnemy; }
           set { nameEnemy = value; }
+      }
+
+      public string Description
+      {
+          get { return description; }
+          set { description = value; }
       }
 
       public Sprite SpriteEnemy
