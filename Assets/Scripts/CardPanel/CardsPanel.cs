@@ -8,38 +8,42 @@ using UnityEngine.UI;
 public class CardsPanel : MonoBehaviour
 {
     [SerializeField] private GameObject card;
+    private List<GameObject> cardsList;
 
     private void Start()
     {
         gameObject.SetActive(false);
+        cardsList = new List<GameObject>();
     }
 
     private void Awake()
     {
         Messenger.AddListener<GridCell>(GameEvent.PLAYER_MOVE_ON_CELL, ShowCardsFromTile);
+        Messenger.AddListener(GameEvent.CLOSE_CARDS_PANEL, CloseCardsPanel);
     }
 
     //Показ карт на панели, информация берется из gridCell. Если тип бо
     private void ShowCardsFromTile(GridCell gridCell)
     {
-        TileCard tileCard = gridCell.TileCard;
-        foreach (StructCardTypeAmount sctruct in tileCard.cardList)
+        if (!gridCell.Visited)
         {
-            int amount = sctruct.amount;
-            for (int i = 0; i < amount; i++)
+            TileCard tileCard = gridCell.TileCard;
+            foreach (StructCardTypeAmount sctruct in tileCard.cardList)
             {
-                var cardObj = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-                
-                  cardObj.GetComponent<CardScr>().SetType(sctruct.cardType);
-//                if (cardObj.GetComponent<Image>().sprite == null)
-//                {
-//                    cardObj.GetComponent<Image>().sprite = sctruct.cardData.CardShirt;
-//                }
-                cardObj.transform.SetParent(gameObject.transform, false);
-            }
-        }
+                int amount = sctruct.amount;
+                for (int i = 0; i < amount; i++)
+                {
+                    var cardObj = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
 
-        gameObject.SetActive(true);
+                    cardObj.GetComponent<CardScr>().SetType(sctruct.cardType);
+                    cardObj.transform.SetParent(gameObject.transform, false);
+                    cardsList.Add(cardObj);
+                }
+            }
+
+            gameObject.SetActive(true);
+            gridCell.Visited = true;
+        }
     }
 
     public void ShuffleCards()
@@ -52,10 +56,8 @@ public class CardsPanel : MonoBehaviour
         var spacing = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
         var widht = gameObject.GetComponent<GridLayoutGroup>().cellSize.x;
 
-        //TODO: VECTOR3.LERP
         Vector2 defaultSpacing = new Vector2(spacing, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
         Vector2 endingSpacing = new Vector2(-widht, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
-
 
         while (spacing > -widht + 0.5f)
         {
@@ -64,6 +66,7 @@ public class CardsPanel : MonoBehaviour
                 new Vector3(spacing, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
             yield return null;
         }
+
 
         float angle = 0;
         while (angle < 90f)
@@ -81,14 +84,14 @@ public class CardsPanel : MonoBehaviour
             tran.SetParent(null);
         }
 
-        while (list.Count>0)
+        while (list.Count > 0)
         {
             var tl = list[Random.Range(0, list.Count)];
             tl.SetParent(transform);
             tl.transform.eulerAngles = euler;
             list.Remove(tl);
         }
-        
+
 
         angle = transform.eulerAngles.y;
         while (angle > 0f)
@@ -106,5 +109,15 @@ public class CardsPanel : MonoBehaviour
                 new Vector3(spacingCurrent, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
             yield return null;
         }
+    }
+
+    private void CloseCardsPanel()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        gameObject.SetActive(false);
     }
 }

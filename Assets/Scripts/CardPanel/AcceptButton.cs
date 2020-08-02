@@ -26,5 +26,6 @@ public class AcceptButton : MonoBehaviour
     public void OnClickButton()
     {
         Messenger.Broadcast(GameEvent.HANDLE_CHOSEN_CARD);
+        Messenger.Broadcast(GameEvent.CLOSE_CARDS_PANEL);
     }
 }

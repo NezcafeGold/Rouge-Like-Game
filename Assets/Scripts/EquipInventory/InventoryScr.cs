@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 
 public class InventoryScr : MonoBehaviour
  {
+     [SerializeField] private GameObject cellSmallCard;
      [SerializeField] private GameObject smallCard;
      private const int AMOUNT_CARDS = 15;
-     private List<GameObject> smallCardsList;
+     private List<GameObject> cellSmallCardsList;
      private void Start()
      {
          gameObject.SetActive(false);
@@ -16,11 +18,13 @@ public class InventoryScr : MonoBehaviour
      private void Awake()
      {
          Messenger.AddListener(GameEvent.SHOW_INVENTORY, ShowInventory);
+         Messenger.AddListener<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, AddItemToInventory);
      }
- 
+
      private void OnDestroy()
      {
          Messenger.RemoveListener(GameEvent.SHOW_INVENTORY, ShowInventory);
+         Messenger.RemoveListener<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, AddItemToInventory);
      }
  
      public void ShowInventory()
@@ -32,10 +36,24 @@ public class InventoryScr : MonoBehaviour
  
      private void GenerateCardPlaces()
      {
-         smallCardsList =  new List<GameObject>();
+         cellSmallCardsList =  new List<GameObject>();
          for (int i = 0; i < AMOUNT_CARDS; i++)
          {
-             smallCardsList.Add(Instantiate(smallCard, transform, false));
+             cellSmallCardsList.Add(Instantiate(cellSmallCard, transform, false));
+         }
+     }
+     
+     private void AddItemToInventory(WeaponData weaponData)
+     {
+         for (int i = 0; i < cellSmallCardsList.Count; i++)
+         {
+             var cellSmallCardScr = cellSmallCardsList[i].GetComponent<CellSmallCardScr>();
+             if (!cellSmallCardScr.HasItem)
+             {
+                 var smallCardObj = Instantiate(smallCard, cellSmallCardsList[i].transform);
+                 smallCardObj.GetComponent<SmallCardInvScr>().AddWeaponData(weaponData);
+                 break;
+             }
          }
      }
  }

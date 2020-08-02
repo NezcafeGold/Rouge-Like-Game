@@ -79,14 +79,13 @@ public class CardScr : MonoBehaviour
         Messenger.RemoveListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.RemoveListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
         Messenger.RemoveListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
-
     }
 
     private void BlockToRotate()
     {
         isRotatable = false;
     }
-    
+
     private void ChangeCardShirt()
     {
         if (!shirtCard.activeSelf)
@@ -102,10 +101,10 @@ public class CardScr : MonoBehaviour
         else description.SetActive(false);
         if (isRotatable)
         {
-            StartCoroutine(Rotate());
-            isChosenCard = true;
+            StartCoroutine(Rotate()); 
             Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
             Messenger.Broadcast(GameEvent.ACTIVE_ACCEPT_BUTTON);
+            isChosenCard = true;
         }
     }
 
@@ -168,6 +167,7 @@ public class CardScr : MonoBehaviour
     private void UpdateFaceCard(CardType cardType)
     {
         var other = faceCard.transform.Find("Other");
+        this.cardType = cardType;
         switch (cardType)
         {
             case CardType.ENEMY:
@@ -189,7 +189,7 @@ public class CardScr : MonoBehaviour
             }
         }
     }
-    
+
     private void HandleChosenCard()
     {
         if (isChosenCard)
@@ -197,7 +197,7 @@ public class CardScr : MonoBehaviour
             switch (cardType)
             {
                 case CardType.WEAPON:
-                   // gameObject.transform.SetParent(null);
+                    Messenger.Broadcast<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, weaponData);
                     break;
             }
         }

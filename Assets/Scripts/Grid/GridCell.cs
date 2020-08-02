@@ -9,6 +9,7 @@ public class GridCell : MonoBehaviour
     private int xCord;
     private int yCord;
     private bool playerIsHere = false;
+    private bool startPoint;
     private bool visited = false;
     private TileCard tileCard;
     private Sprite openShirt;
@@ -41,12 +42,20 @@ public class GridCell : MonoBehaviour
         set { playerIsHere = value; }
     }
 
+    public bool Visited
+    {
+        get { return visited; }
+        set { visited = value; }
+    }
+
     private void Start()
     {
         if (!playerIsHere)
             gameObject.GetComponent<Image>().sprite = closedShirt;
         else
             gameObject.GetComponent<Image>().sprite = visitedTile;
+
+        startPoint = playerIsHere;
     }
 
     public void setPlayer(GameObject _player)
@@ -63,7 +72,6 @@ public class GridCell : MonoBehaviour
         if (!visited)
         {
             gameObject.GetComponent<Image>().sprite = visitedTile;
-            visited = true;
         }
         
     }
@@ -75,7 +83,7 @@ public class GridCell : MonoBehaviour
 
     public void CheckTileShirt()
     {
-        if (!visited)
+        if (!visited && !startPoint)
             gameObject.GetComponent<Image>().sprite = openShirt;
     }
 }
