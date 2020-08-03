@@ -42,6 +42,7 @@ public class CardsPanel : MonoBehaviour
             }
 
             gameObject.SetActive(true);
+            Messenger.Broadcast(GameEvent.SHUFFLE_BUTTON);
             gridCell.Visited = true;
         }
     }

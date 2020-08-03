@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -72,6 +73,7 @@ public class CardScr : MonoBehaviour
     {
         shirtCard.SetActive(false);
         description.SetActive(false);
+        DontDestroyOnLoad(transform);
     }
 
     private void OnDestroy()
@@ -96,15 +98,19 @@ public class CardScr : MonoBehaviour
 
     public void RotateAndShowFace()
     {
-        if (!description.activeSelf)
-            description.SetActive(true);
-        else description.SetActive(false);
+       
         if (isRotatable)
         {
             StartCoroutine(Rotate()); 
             Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
             Messenger.Broadcast(GameEvent.ACTIVE_ACCEPT_BUTTON);
             isChosenCard = true;
+        }
+        else
+        {
+            if (!description.activeSelf)
+                description.SetActive(true);
+            else description.SetActive(false);
         }
     }
 
@@ -198,6 +204,9 @@ public class CardScr : MonoBehaviour
             {
                 case CardType.WEAPON:
                     Messenger.Broadcast<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, weaponData);
+                    break;
+                case CardType.ENEMY:
+                    Messenger.Broadcast<GameObject>(GameEvent.BEGIN_BATTLE, gameObject);
                     break;
             }
         }

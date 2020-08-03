@@ -8,8 +8,8 @@ public class ShuffleButton : MonoBehaviour
     }
     private void Awake()
     {
-        Messenger.AddListener<GridCell>(GameEvent.PLAYER_MOVE_ON_CELL, SetActive);
         Messenger.AddListener(GameEvent.BLOCK_TO_ROTATE, SetNotActive);
+        Messenger.AddListener(GameEvent.SHUFFLE_BUTTON, SetActive);
     }
 
     private void SetNotActive()
@@ -17,7 +17,7 @@ public class ShuffleButton : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void SetActive(GridCell arg1)
+    private void SetActive()
     {
         gameObject.SetActive(true);
     }
