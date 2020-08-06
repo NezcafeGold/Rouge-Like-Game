@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         gridField = new GameObject[SIDE_SIZE, SIDE_SIZE];
+
     }
 
     private void Start()

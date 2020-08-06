@@ -40,4 +40,9 @@ public class Level : MonoBehaviour
         get { return weapons; }
         set { weapons = value; }
     }
+
+    void Awake()
+    {
+
+    }
 }

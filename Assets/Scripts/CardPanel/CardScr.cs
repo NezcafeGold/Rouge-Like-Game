@@ -73,7 +73,7 @@ public class CardScr : MonoBehaviour
     {
         shirtCard.SetActive(false);
         description.SetActive(false);
-        DontDestroyOnLoad(transform);
+
     }
 
     private void OnDestroy()

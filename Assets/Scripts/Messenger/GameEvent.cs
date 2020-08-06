@@ -1,5 +1,6 @@
 public static class GameEvent
 {
+    public const string SHOW_SPELL_BOOK = "SHOW_SPELL_BOOK";
     public const string SHUFFLE_BUTTON = "SHUFFLE_BUTTON";
     public const string UPDATE_EQUIP = "UPDATE_EQUIP";
     public const string CLOSE_CARDS_PANEL = "CLOSE_CARDS_PANEL";

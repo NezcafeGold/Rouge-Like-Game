@@ -13,6 +13,11 @@ public class Player : MonoBehaviour, IEndDragHandler, IBeginDragHandler, IDragHa
      private bool dragged = false;
      private bool needReset = false;
 
+     void Awake()
+     {
+
+     }
+
      private void Start()
      {
          controllerScript = gameController.GetComponent<GameController>();

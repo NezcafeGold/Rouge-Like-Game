@@ -48,6 +48,11 @@ public class GridCell : MonoBehaviour
         set { visited = value; }
     }
 
+    void Awake()
+    {
+
+    }
+
     private void Start()
     {
         if (!playerIsHere)
@@ -56,7 +61,6 @@ public class GridCell : MonoBehaviour
             gameObject.GetComponent<Image>().sprite = visitedTile;
 
         startPoint = playerIsHere;
-        DontDestroyOnLoad(transform);
     }
 
     public void setPlayer(GameObject _player)
