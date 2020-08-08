@@ -1,5 +1,7 @@
 public static class GameEvent
 {
+    public const string UPDATE_STATS = "UPDATE_STATS";
+    public const string ROLL_DICES = "ROLL_DICES";
     public const string SHOW_SPELL_BOOK = "SHOW_SPELL_BOOK";
     public const string SHUFFLE_BUTTON = "SHUFFLE_BUTTON";
     public const string UPDATE_EQUIP = "UPDATE_EQUIP";

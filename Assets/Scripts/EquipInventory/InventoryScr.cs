@@ -17,22 +17,14 @@ public class InventoryScr : MonoBehaviour
  
      private void Awake()
      {
-         Messenger.AddListener(GameEvent.SHOW_INVENTORY, ShowInventory);
          Messenger.AddListener<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, AddItemToInventory);
      }
 
      private void OnDestroy()
      {
-         Messenger.RemoveListener(GameEvent.SHOW_INVENTORY, ShowInventory);
          Messenger.RemoveListener<WeaponData>(GameEvent.ADD_ITEM_TO_INVENTORY, AddItemToInventory);
      }
- 
-     public void ShowInventory()
-     {
-         if (!gameObject.activeSelf)
-             gameObject.SetActive(true);
-         else gameObject.SetActive(false);
-     }
+
  
      private void GenerateCardPlaces()
      {

@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class EquipInventoryScr : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private GameObject inv;
+    private GameObject sb;
+
+    private void Start()
     {
+        inv = transform.Find("Inventory").gameObject;
+        sb = transform.Find("SpellBook").gameObject;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
 
     public void ShowInventory()
     {
@@ -21,9 +21,16 @@ public class EquipInventoryScr : MonoBehaviour
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 0;
         else if (order == 0)
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 1;
-        Messenger.Broadcast(GameEvent.SHOW_INVENTORY);
+
+        if (!inv.activeSelf)
+        {
+            inv.SetActive(true);
+            if (sb.activeSelf)
+                ShowSpellBook();
+        }
+        else inv.SetActive(false);
     }
-    
+
     public void ShowSpellBook()
     {
         int order = gameObject.transform.GetComponent<Canvas>().sortingOrder;
@@ -31,6 +38,13 @@ public class EquipInventoryScr : MonoBehaviour
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 0;
         else if (order == 0)
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 1;
-        Messenger.Broadcast(GameEvent.SHOW_SPELL_BOOK);
+
+        if (!sb.activeSelf)
+        {
+            sb.SetActive(true);
+            if (inv.activeSelf)
+                ShowInventory();
+        }
+        else sb.SetActive(false);
     }
 }

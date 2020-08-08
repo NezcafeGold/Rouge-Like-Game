@@ -8,13 +8,27 @@ public class PlayerSetup : MonoBehaviour
     [SerializeField] [Tooltip("Не более 5")]
     public List<AbilityData> Abilities;
 
-    // Start is called before the first frame update
-    void Start()
+   
+    [SerializeField] public int Attack;
+    [SerializeField] public int CurrentLive;
+    [SerializeField] public int TotalLives;
+    [SerializeField] public int DiceCount;
+
+    private int defaultAttack;
+
+    private void Start()
     {
+        defaultAttack = Attack;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static PlayerSetup GetPlayerSetup()
     {
+        return GameObject.Find("PlayerSetup").GetComponent<PlayerSetup>();
+    }
+
+    public void UpdateAttack(int attack)
+    {
+        Attack = defaultAttack + attack;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 }

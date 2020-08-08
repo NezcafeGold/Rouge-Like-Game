@@ -11,7 +11,7 @@ public class AbilityPlayer : MonoBehaviour
 
     void Start()
     {
-        abilitiesData = GameObject.Find("PlayerSetup").GetComponent<PlayerSetup>().Abilities;
+        abilitiesData = PlayerSetup.GetPlayerSetup().Abilities;
         GenerateSpellBook();
     }
 
@@ -19,7 +19,7 @@ public class AbilityPlayer : MonoBehaviour
     {
         foreach (var ab in abilitiesData)
         {
-            var obj = Instantiate(abilityPrefab);
+            var obj = Instantiate(abilityPrefab, transform);
             obj.GetComponent<Ability>().SetData(ab);
         }
     }

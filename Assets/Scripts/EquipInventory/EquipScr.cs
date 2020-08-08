@@ -36,8 +36,7 @@ public class EquipScr : MonoBehaviour
                 }
             }
         }
-
-        GameObject.Find("Status").GetComponent<TextMeshProUGUI>().text = "Атака: " + attack;
+        PlayerSetup.GetPlayerSetup().UpdateAttack(attack);
     }
 
     // Update is called once per frame

@@ -8,18 +8,6 @@ public class SpellBook : MonoBehaviour
     [SerializeField] private Ability abilityPrefab;
     private List<AbilityData> abilitiesData;
 
-    void Awake()
-    {
-        Messenger.AddListener(GameEvent.SHOW_SPELL_BOOK, ShowSpellBook);
-    }
-
-    private void ShowSpellBook()
-    {
-        if (!gameObject.activeSelf)
-            gameObject.SetActive(true);
-        else gameObject.SetActive(false);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
