@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +28,7 @@ public class Dice : MonoBehaviour
 
     private void RollListener()
     {
-        if(isEnableToRoll)
+        if (isEnableToRoll)
             StartCoroutine("RollTheDice");
     }
 
@@ -66,8 +67,29 @@ public class Dice : MonoBehaviour
             // Pause before next itteration
             yield return new WaitForSeconds(0.05f);
         }
+
         finalSide = randomDiceSide + 1;
         Debug.Log(finalSide);
-        
+
+        ColorEnum colorEnum = ColorEnum.NONE;
+        switch (finalSide)
+        {
+            case 1:
+                colorEnum = ColorEnum.RED;
+                break;
+            case 2:
+                colorEnum = ColorEnum.GREEN;
+                break;
+            case 3:
+                colorEnum = ColorEnum.BLUE;
+                break;
+            case 4:
+                colorEnum = ColorEnum.YELLOW;
+                break;
+            default:
+                colorEnum = ColorEnum.NONE;
+                break;
+        }
+        Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE, colorEnum);
     }
 }

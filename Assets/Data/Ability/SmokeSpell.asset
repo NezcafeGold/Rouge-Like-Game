@@ -16,7 +16,8 @@ MonoBehaviour:
   DescriptionAbility: "\u041F\u0440\u0438 \u0443\u0441\u043F\u0435\u0445\u0435 \u0432\u0440\u0430\u0433
     \u043C\u043E\u0436\u0435\u0442 \u043F\u0440\u043E\u043C\u0430\u0445\u043D\u0443\u0442\u044C\u0441\u044F
     \u0441 50% \u0448\u0430\u043D\u0441\u043E\u043C"
-  AbulityEnum: 0
+  AbilityEnum: 2
+  ValueForAbility: 50
   LuckCount: 4
   CellLuckCount: 4
   Color: 1

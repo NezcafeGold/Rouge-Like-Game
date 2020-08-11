@@ -124,6 +124,7 @@ public class GameController : MonoBehaviour
                 player.transform.localPosition = new Vector3(0, 0, 0);
                 cellToMove.GetComponent<GridCell>().visitTile();
                 Messenger.Broadcast(GameEvent.PLAYER_MOVE_ON_CELL, cellToMove.GetComponent<GridCell>()); //CardPanel.ShowCardsFromTile
+                PlayerSetup.GetPlayerSetup().SubtractStamina(1);
             }
         }
         catch (Exception e)
