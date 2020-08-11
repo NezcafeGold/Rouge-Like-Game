@@ -67,13 +67,13 @@ public class CardScr : MonoBehaviour
         Messenger.AddListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.AddListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
         Messenger.AddListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
+        Messenger.AddListener(GameEvent.ALLOW_TO_ROTATE, AllowToRotate);
     }
 
     private void Start()
     {
         shirtCard.SetActive(false);
         description.SetActive(false);
-
     }
 
     private void OnDestroy()
@@ -81,6 +81,7 @@ public class CardScr : MonoBehaviour
         Messenger.RemoveListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.RemoveListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
         Messenger.RemoveListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
+        Messenger.AddListener(GameEvent.ALLOW_TO_ROTATE, AllowToRotate);
     }
 
     private void BlockToRotate()
@@ -88,20 +89,24 @@ public class CardScr : MonoBehaviour
         isRotatable = false;
     }
 
+    private void AllowToRotate()
+    {
+        isRotatable = true;
+    }
+
     private void ChangeCardShirt()
     {
         if (!shirtCard.activeSelf)
             shirtCard.SetActive(true);
         else shirtCard.SetActive(false);
-        isRotatable = true;
+        //isRotatable = true;
     }
 
     public void RotateAndShowFace()
     {
-       
         if (isRotatable)
         {
-            StartCoroutine(Rotate()); 
+            StartAnimationRotate();
             Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
             Messenger.Broadcast(GameEvent.ACTIVE_ACCEPT_BUTTON);
             isChosenCard = true;
@@ -115,27 +120,10 @@ public class CardScr : MonoBehaviour
     }
 
 
-    private IEnumerator Rotate()
+    private void StartAnimationRotate()
     {
-        float angle = 0;
-        while (angle < 90f)
-        {
-            angle = Mathf.LerpAngle(angle, 91f, Time.time / 30);
-            transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
-            yield return null;
-        }
-
-        ChangeCardShirt();
-
-        angle = transform.eulerAngles.y;
-        while (angle > 0f)
-        {
-            angle = Mathf.LerpAngle(angle, -1f, Time.time / 30);
-            transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
-            yield return null;
-        }
-
         isRotatable = false;
+        GetComponent<Animation>().Play(GetComponent<Animation>().clip.name);
     }
 
     public void SetType(CardType sctructCardType)

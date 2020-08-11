@@ -47,37 +47,24 @@ public class CardsPanel : MonoBehaviour
         }
     }
 
-    public void ShuffleCards()
+    private void StartAnimation()
     {
-        StartCoroutine(ChangeSpacingAndRotate());
+        Messenger.Broadcast(GameEvent.BLOCK_TO_ROTATE);
+        GetComponent<Animation>().Play(GetComponent<Animation>().clip.name);
     }
 
-    private IEnumerator ChangeSpacingAndRotate()
+    private void EndAnimation()
     {
-        var spacing = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
-        var widht = gameObject.GetComponent<GridLayoutGroup>().cellSize.x;
+        Messenger.Broadcast(GameEvent.ALLOW_TO_ROTATE);
+    }
+    
+    public void ResetRotation()
+    {
+        transform.eulerAngles = new Vector3(0, 0, 0);
+    }
 
-        Vector2 defaultSpacing = new Vector2(spacing, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
-        Vector2 endingSpacing = new Vector2(-widht, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
-
-        while (spacing > -widht + 0.5f)
-        {
-            spacing = Mathf.Lerp(defaultSpacing.x, endingSpacing.x, Time.fixedTime / 3f);
-            gameObject.GetComponent<GridLayoutGroup>().spacing =
-                new Vector3(spacing, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
-            yield return null;
-        }
-
-
-        float angle = 0;
-        while (angle < 90f)
-        {
-            angle = Mathf.LerpAngle(angle, 91f, Time.fixedTime / 200);
-            transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
-            yield return null;
-        }
-
-        var euler = transform.eulerAngles;
+    public void CloseCardsAndShuffle()
+    {
         Messenger.Broadcast(GameEvent.CHANGE_CARD_SHIRT);
         List<Transform> list = transform.Cast<Transform>().ToList();
         foreach (var tran in list)
@@ -89,28 +76,10 @@ public class CardsPanel : MonoBehaviour
         {
             var tl = list[Random.Range(0, list.Count)];
             tl.SetParent(transform);
-            tl.transform.eulerAngles = euler;
             list.Remove(tl);
         }
-
-
-        angle = transform.eulerAngles.y;
-        while (angle > 0f)
-        {
-            angle = Mathf.LerpAngle(angle, -1f, Time.fixedTime / 200);
-            transform.eulerAngles = new Vector3(transform.rotation.x, angle, transform.rotation.z);
-            yield return null;
-        }
-
-        var spacingCurrent = gameObject.GetComponent<GridLayoutGroup>().spacing.x;
-        while (spacingCurrent < defaultSpacing.x)
-        {
-            spacingCurrent = Mathf.Lerp(spacingCurrent, defaultSpacing.x + 1f, Time.fixedTime / 40f);
-            gameObject.GetComponent<GridLayoutGroup>().spacing =
-                new Vector3(spacingCurrent, gameObject.GetComponent<GridLayoutGroup>().spacing.y);
-            yield return null;
-        }
     }
+
 
     private void CloseCardsPanel()
     {
