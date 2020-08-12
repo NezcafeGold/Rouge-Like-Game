@@ -8,12 +8,23 @@ public class AbilityPlayer : MonoBehaviour
     [SerializeField] private Ability abilityPrefab;
 
     private List<AbilityData> abilitiesData;
+    public Side side;
+
+    void Awake()
+    {
+        Messenger.AddListener<GameObject>(GameEvent.BEGIN_BATTLE, GenerateSpellBookForEnemy);
+    }
+
 
     void Start()
     {
-        abilitiesData = PlayerSetup.GetPlayerSetup().Abilities;
-        GenerateSpellBook();
+        if (side == Side.PLAYER)
+        {
+            abilitiesData = PlayerSetup.GetPlayerSetup().Abilities;
+            GenerateSpellBook();
+        }
     }
+
 
     private void GenerateSpellBook()
     {
@@ -21,6 +32,16 @@ public class AbilityPlayer : MonoBehaviour
         {
             var obj = Instantiate(abilityPrefab, transform);
             obj.GetComponent<Ability>().SetData(ab);
+            obj.GetComponent<Ability>().SetSide(side);
+        }
+    }
+
+    private void GenerateSpellBookForEnemy(GameObject go)
+    {
+        if (side == Side.ENEMY)
+        {
+            abilitiesData = go.GetComponent<CardScr>().EnemyData.AbilityData;
+            GenerateSpellBook();
         }
     }
 }

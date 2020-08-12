@@ -8,6 +8,7 @@ public class DiceField : MonoBehaviour
 
     private int diceCount;
     private bool isEnable;
+    public Side side;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,11 @@ public class DiceField : MonoBehaviour
         diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
         GenerateDices();
         isEnable = true;
+    }
+
+    void Awake()
+    {
+        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, RollTheDiceFromMessenger );
     }
 
     private void GenerateDices()
@@ -25,12 +31,18 @@ public class DiceField : MonoBehaviour
         }
     }
 
+    private void RollTheDiceFromMessenger()
+    {
+        if (side == Side.ENEMY)
+            RollTheDices();
+    }
+
     public void RollTheDices()
     {
         if (isEnable)
             foreach (Transform tr in transform)
             {
-                tr.GetComponent<Dice>().DiceRoll();
+                tr.GetComponent<Dice>().DiceRoll(side);
             }
 
         isEnable = false;

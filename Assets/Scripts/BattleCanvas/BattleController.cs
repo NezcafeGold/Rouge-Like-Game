@@ -8,6 +8,7 @@ public class BattleController : MonoBehaviour
     public static int ENEMY_TURN = 2;
 
     public static int CURRENT_TURN;
+
     private void Start()
     {
         CURRENT_TURN = PLAYER_TURN;
@@ -27,10 +28,20 @@ public class BattleController : MonoBehaviour
     private void ShowBattleButton()
     {
         gameObject.SetActive(true);
-        CURRENT_TURN = ENEMY_TURN;
     }
 
-    public void PlayerAttackEnemy()
+    public void NextTurn()
     {
+        if (CURRENT_TURN == ENEMY_TURN)
+        {
+            CURRENT_TURN = PLAYER_TURN;
+        }
+        else
+        {
+            CURRENT_TURN = ENEMY_TURN;
+            Messenger.Broadcast(GameEvent.BATTLE_ENEMY_TURN);
+        }
+        
+        
     }
 }

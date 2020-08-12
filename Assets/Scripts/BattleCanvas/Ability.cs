@@ -27,31 +27,39 @@ public class Ability : MonoBehaviour
 
     private GameObject resetButton;
 
+    private bool isEnableToClick;
+    private Side side;
+
     public int CurrentPointsFromDices
     {
         get { return currentPointsFromDices; }
         set { currentPointsFromDices = value; }
     }
-    
+
     //TODO: реализовать GameEvent.BATTLE_ENEMY_TURN, вложенный класс с методом который вызывает метод по енам 
 
     void Awake()
     {
-        Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE, AddDiceSide);
+        Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
+        Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
         Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, ApplyStaminaPoints);
     }
 
     private void OnDestroy()
     {
-        Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE, AddDiceSide);
+        Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
+        Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
+        Messenger.RemoveListener(GameEvent.BATTLE_ENEMY_TURN, ApplyStaminaPoints);
     }
 
     private void Start()
     {
+        isEnableToClick = true;
         pointsOnChargePanel = 0;
         valueCharge = 0;
         freePointsFromStamina = 0;
         currentPointsFromDices = 0;
+        pointsForLuck = 0;
         isEnableToAddPoints = false;
         resetButton = transform.Find("Reset").gameObject;
         resetButton.SetActive(false);
@@ -62,6 +70,12 @@ public class Ability : MonoBehaviour
         currentPointsFromDices = currentPointsFromDices + freePointsFromStamina;
         freePointsFromStamina = 0;
         resetButton.SetActive(false);
+        isEnableToClick = false;
+    }
+
+    public void SetSide(Side side)
+    {
+        this.side = side;
     }
 
     private void AddPointsOnChargePanel()
@@ -76,7 +90,7 @@ public class Ability : MonoBehaviour
     public void AddPointsFromStamina()
     {
         if (isEnableToAddPoints && PlayerSetup.GetPlayerSetup().CurrentStaminaPoints > 0 &&
-            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices)
+            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices && isEnableToClick)
         {
             PlayerSetup.GetPlayerSetup().SubtractStamina(1);
             freePointsFromStamina++;
@@ -93,14 +107,31 @@ public class Ability : MonoBehaviour
         UpdatePointsVisual(true);
     }
 
-    private void AddDiceSide(ColorEnum colorEnum)
+    private void AddDiceSideForPlayer(ColorEnum colorEnum)
     {
-        isEnableToAddPoints = true;
-        if (abilityData.Color == colorEnum)
+        if (side == Side.PLAYER)
         {
-            currentPointsFromDices++;
-            AddPointsOnChargePanel();
-            UpdatePointsVisual(false);
+            isEnableToAddPoints = true;
+            if (abilityData.Color == colorEnum)
+            {
+                currentPointsFromDices++;
+                AddPointsOnChargePanel();
+                UpdatePointsVisual(false);
+            }
+        }
+    }
+    
+    private void AddDiceSideForEnemy(ColorEnum colorEnum)
+    {
+        if (side == Side.ENEMY)
+        {
+            isEnableToAddPoints = true;
+            if (abilityData.Color == colorEnum)
+            {
+                currentPointsFromDices++;
+                AddPointsOnChargePanel();
+                UpdatePointsVisual(false);
+            }
         }
     }
 
@@ -162,6 +193,5 @@ public class Ability : MonoBehaviour
 
     private class AbilitySpell
     {
-               
     }
 }

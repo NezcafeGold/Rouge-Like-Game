@@ -13,6 +13,8 @@ public class Dice : MonoBehaviour
 
     private bool isEnableToRoll;
 
+    private Side side;
+
     // Use this for initialization
     private void Start()
     {
@@ -21,8 +23,9 @@ public class Dice : MonoBehaviour
         isEnableToRoll = true;
     }
 
-    public void DiceRoll()
+    public void DiceRoll(Side side)
     {
+        this.side = side;
         StartCoroutine("RollTheDice");
     }
 
@@ -73,7 +76,14 @@ public class Dice : MonoBehaviour
                 break;
         }
 
-        Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE, colorEnum);
+        if (side == Side.PLAYER)
+        {
+            Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, colorEnum);
+        } else if (side == Side.ENEMY)
+        {
+            Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, colorEnum);
+        }
+
         Messenger.Broadcast(GameEvent.SHOW_BATTLE_CONTROLLER);
     }
 }

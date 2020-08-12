@@ -16,3 +16,6 @@ MonoBehaviour:
   spriteEnemy: {fileID: 21300000, guid: 9c6012de6cf9f474fafd3d6bf737ba2f, type: 3}
   hpEnemy: 10
   attackEnemy: 10
+  description: 
+  abilityData:
+  - {fileID: 11400000, guid: af576edcccfa8a849a3d4bcf315b0526, type: 2}
