@@ -21,32 +21,14 @@ public class Dice : MonoBehaviour
         isEnableToRoll = true;
     }
 
-    private void Awake()
+    public void DiceRoll()
     {
-        Messenger.AddListener(GameEvent.ROLL_DICES, RollListener);
-    }
-
-    private void RollListener()
-    {
-        if (isEnableToRoll)
-            StartCoroutine("RollTheDice");
-    }
-
-    // If you left click over the dice then RollTheDice coroutine is started
-    public void OnDiceClick()
-    {
-        if (isEnableToRoll)
-        {
-            isEnableToRoll = false;
-            Messenger.Broadcast(GameEvent.ROLL_DICES);
-            StartCoroutine("RollTheDice");
-        }
+        StartCoroutine("RollTheDice");
     }
 
     // Coroutine that rolls the dice
     private IEnumerator RollTheDice()
     {
-        isEnableToRoll = false;
         // Variable to contain random dice side number.
         // It needs to be assigned. Let it be 0 initially
         int randomDiceSide = 0;
@@ -90,6 +72,8 @@ public class Dice : MonoBehaviour
                 colorEnum = ColorEnum.NONE;
                 break;
         }
+
         Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE, colorEnum);
+        Messenger.Broadcast(GameEvent.SHOW_BATTLE_CONTROLLER);
     }
 }

@@ -15,16 +15,35 @@ public class Ability : MonoBehaviour
 
     //сколько зарядов имеется (все очки / очки удачи)
     private int valueCharge;
+    private int pointsForLuck;
 
     private bool isEnableToAddPoints;
 
+    //сколько очков есть, но не примененных
     private int freePointsFromStamina;
 
+    //сколько очков с кубиков
+    private int currentPointsFromDices;
+
     private GameObject resetButton;
+
+    public int CurrentPointsFromDices
+    {
+        get { return currentPointsFromDices; }
+        set { currentPointsFromDices = value; }
+    }
+    
+    //TODO: реализовать GameEvent.BATTLE_ENEMY_TURN, вложенный класс с методом который вызывает метод по енам 
 
     void Awake()
     {
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE, AddDiceSide);
+        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, ApplyStaminaPoints);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE, AddDiceSide);
     }
 
     private void Start()
@@ -32,8 +51,16 @@ public class Ability : MonoBehaviour
         pointsOnChargePanel = 0;
         valueCharge = 0;
         freePointsFromStamina = 0;
+        currentPointsFromDices = 0;
         isEnableToAddPoints = false;
         resetButton = transform.Find("Reset").gameObject;
+        resetButton.SetActive(false);
+    }
+
+    private void ApplyStaminaPoints()
+    {
+        currentPointsFromDices = currentPointsFromDices + freePointsFromStamina;
+        freePointsFromStamina = 0;
         resetButton.SetActive(false);
     }
 
@@ -48,7 +75,8 @@ public class Ability : MonoBehaviour
 
     public void AddPointsFromStamina()
     {
-        if (isEnableToAddPoints && PlayerSetup.GetPlayerSetup().CurrentStaminaPoints > 0)
+        if (isEnableToAddPoints && PlayerSetup.GetPlayerSetup().CurrentStaminaPoints > 0 &&
+            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices)
         {
             PlayerSetup.GetPlayerSetup().SubtractStamina(1);
             freePointsFromStamina++;
@@ -70,6 +98,7 @@ public class Ability : MonoBehaviour
         isEnableToAddPoints = true;
         if (abilityData.Color == colorEnum)
         {
+            currentPointsFromDices++;
             AddPointsOnChargePanel();
             UpdatePointsVisual(false);
         }
@@ -85,17 +114,12 @@ public class Ability : MonoBehaviour
                 t.Find("Point").gameObject.SetActive(false);
             }
         }
+
         for (int i = 0; i < pointsOnChargePanel + freePointsFromStamina; i++)
         {
             cpObj.transform.GetChild(i).Find("Point").gameObject.SetActive(true);
         }
     }
-
-    private void OnDestroy()
-    {
-        Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE, AddDiceSide);
-    }
-
 
     public void SetData(AbilityData abd)
     {
@@ -106,6 +130,7 @@ public class Ability : MonoBehaviour
         ab.transform.Find("LuckCount").GetComponent<TextMeshProUGUI>().text = abd.LuckCount.ToString();
         ab.transform.Find("Border").GetComponent<Image>().color = GetColor(abilityData.Color);
         var chargePanel = ab.transform.Find("ChargePanel");
+        pointsForLuck = abd.LuckCount;
         for (int i = 0; i < abd.CellLuckCount; i++)
         {
             Instantiate(chargePoint, chargePanel);
@@ -129,11 +154,14 @@ public class Ability : MonoBehaviour
             case ColorEnum.GREEN:
                 color = Color.green;
                 break;
-            default:
-                break;
         }
 
         ColorAb = color;
         return color;
+    }
+
+    private class AbilitySpell
+    {
+               
     }
 }

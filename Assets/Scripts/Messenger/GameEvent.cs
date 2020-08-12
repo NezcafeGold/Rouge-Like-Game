@@ -1,8 +1,10 @@
 public static class GameEvent
 {
+    public const string BEGIN_BATTLE = "BEGIN_BATTLE";
+    public const string BATTLE_ENEMY_TURN = "BATTLE_ENEMY_TURN";
+    public const string SHOW_BATTLE_CONTROLLER = "SHOW_BATTLE_CONTROLLER";
     public const string ADD_DICE_SIDE = "ADD_DICE_SIDE";
     public const string UPDATE_STATS = "UPDATE_STATS";
-    public const string ROLL_DICES = "ROLL_DICES";
     public const string SHUFFLE_BUTTON = "SHUFFLE_BUTTON";
     public const string UPDATE_EQUIP = "UPDATE_EQUIP";
     public const string CLOSE_CARDS_PANEL = "CLOSE_CARDS_PANEL";
@@ -13,5 +15,4 @@ public static class GameEvent
     public const string ACTIVE_ACCEPT_BUTTON = "ACTIVE_ACCEPT_BUTTON";
     public const string HANDLE_CHOSEN_CARD = "HANDLE_CHOSEN_CARD";
     public const string ADD_ITEM_TO_INVENTORY = "ADD_ITEM_TO_INVENTORY";
-    public const string BEGIN_BATTLE = "BEGIN_BATTLE";
 }

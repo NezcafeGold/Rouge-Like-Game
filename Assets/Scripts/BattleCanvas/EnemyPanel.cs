@@ -13,7 +13,6 @@ public class EnemyPanel : MonoBehaviour
     {
         go = Instantiate(go, transform, false);
         go.GetComponent<RectTransform>().localScale = Vector3.one;
-        //go.transform.position = new Vector3(0, 0, 0);
         go.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
         go.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
     }
