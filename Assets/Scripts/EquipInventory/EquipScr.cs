@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -8,8 +10,6 @@ public class EquipScr : MonoBehaviour
     [SerializeField] private GameObject cellSmallCard;
 
     private const int AMOUNT_CARDS = 4;
-    
-    
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +20,30 @@ public class EquipScr : MonoBehaviour
     void Awake()
     {
         Messenger.AddListener(GameEvent.UPDATE_EQUIP, UpdateEquip);
+        Messenger.AddListener(GameEvent.BATTLE_START, AddCardsToBattlePanel);
+    }
+
+    private void AddCardsToBattlePanel()
+    {
+        List<GameObject> list = new List<GameObject>();
+        foreach (Transform t in transform)
+        {
+            GameObject card = null;
+            try
+            {
+                card = t.GetChild(0).gameObject;
+            }
+            catch (Exception e)
+            {
+                continue;
+            }
+            if (card != null)
+            {
+                list.Add(card);
+            }
+        }
+
+        Messenger.Broadcast<List<GameObject>>(GameEvent.ADD_ITEMS_TO_BATTLE, list);
     }
 
     private void UpdateEquip()
@@ -36,6 +60,7 @@ public class EquipScr : MonoBehaviour
                 }
             }
         }
+
         PlayerSetup.GetPlayerSetup().UpdateAttack(attack);
     }
 

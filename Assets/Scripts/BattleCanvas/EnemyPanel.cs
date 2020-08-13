@@ -6,7 +6,7 @@ public class EnemyPanel : MonoBehaviour
 {
     void Awake()
     {
-        Messenger.AddListener<GameObject>(GameEvent.BEGIN_BATTLE, AddEnemyCard);
+        Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
     }
 
     private void AddEnemyCard(GameObject go)

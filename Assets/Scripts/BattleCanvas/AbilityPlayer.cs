@@ -12,7 +12,7 @@ public class AbilityPlayer : MonoBehaviour
 
     void Awake()
     {
-        Messenger.AddListener<GameObject>(GameEvent.BEGIN_BATTLE, GenerateSpellBookForEnemy);
+        Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, GenerateSpellBookForEnemy);
     }
 
 

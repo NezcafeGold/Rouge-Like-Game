@@ -9,16 +9,21 @@ public class AnimationToBattle : MonoBehaviour
 
     private void Awake()
     {
-        Messenger.AddListener<GameObject>(GameEvent.BEGIN_BATTLE, StartAnimation);
+        Messenger.AddListener(GameEvent.BATTLE_START, StartAnimation);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BATTLE_START, StartAnimation);
     }
 
     public void LoadBattle()
     {
-       BattleCanvas.SetActive(true);
-       gameObject.SetActive(false);
+        BattleCanvas.SetActive(true);
+        gameObject.SetActive(false);
     }
 
-    public void StartAnimation(GameObject ed)
+    public void StartAnimation()
     {
         GetComponent<Canvas>().sortingOrder = 3;
         GetComponent<Animation>().Play(GetComponent<Animation>().clip.name);
