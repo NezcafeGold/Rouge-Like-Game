@@ -132,6 +132,8 @@ public class GameController : MonoBehaviour
 
             PlayerAnimator.SetFloat("RunRight", 0);
             PlayerAnimator.SetFloat("RunLeft", 0);
+            PlayerAnimator.SetFloat("RunUp", 0);
+            PlayerAnimator.SetFloat("RunDown", 0);
             
             player.transform.SetParent(cellToMove.transform);
             player.transform.localPosition = new Vector3(0, 0, 0);
@@ -154,6 +156,14 @@ public class GameController : MonoBehaviour
         if (direction == DraggedDirection.Right)
         {
             PlayerAnimator.SetFloat("RunRight", 1);
+        }
+        if (direction == DraggedDirection.Up)
+        {
+            PlayerAnimator.SetFloat("RunUp", 1);
+        }
+        if (direction == DraggedDirection.Down)
+        {
+            PlayerAnimator.SetFloat("RunDown", 1);
         }
         yield return new WaitForSeconds(2.8f);
     }
