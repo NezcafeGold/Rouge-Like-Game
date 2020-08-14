@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
@@ -12,13 +13,14 @@ public class GameController : MonoBehaviour
     [SerializeField] private GameObject levelController;
     private string levelName;
     private GameObject[,] gridField;
+    public Animator PlayerAnimator;
+
 
     private const int SIDE_SIZE = 5;
 
     private void Awake()
     {
         gridField = new GameObject[SIDE_SIZE, SIDE_SIZE];
-
     }
 
     private void Start()
@@ -46,7 +48,7 @@ public class GameController : MonoBehaviour
     {
         var lvlContrScr = levelController.GetComponent<LevelController>();
         levelName = lvlContrScr.CurrentLevel.Name;
-        
+
         var levels = lvlContrScr.Levels;
         foreach (Level lvl in levels)
         {
@@ -86,11 +88,13 @@ public class GameController : MonoBehaviour
         var y = Random.Range(0, SIDE_SIZE);
         var gridScript = gridField[x, y].GetComponent<GridCell>();
         gridScript.PlayerIsHere = true;
+       //player.GetComponent<Player>().SetGridCell(gridField[x, y]);
+ 
         gridScript.setPlayer(player);
     }
 
 
-    public void MovePlayerToDirection(DraggedDirection direction)
+    public IEnumerator MovePlayerToDirection(DraggedDirection direction)
     {
         var gridScript = player.transform.parent.GetComponent<GridCell>();
         int xMove = 0;
@@ -109,27 +113,48 @@ public class GameController : MonoBehaviour
             case DraggedDirection.Left:
                 yMove--;
                 break;
-            default:
-                return;
         }
 
-
+        GameObject cellToMove = null;
         try
         {
-            GameObject cellToMove = gridField[gridScript.XCord + xMove, gridScript.YCord + yMove];
-            if (cellToMove.GetComponent<GridCell>().isEnableToMove)
-            {
-                //TODO КОРУТИНА НА АНИМАЦИЮ
-                player.transform.SetParent(cellToMove.transform);
-                player.transform.localPosition = new Vector3(0, 0, 0);
-                cellToMove.GetComponent<GridCell>().visitTile();
-                Messenger.Broadcast(GameEvent.PLAYER_MOVE_ON_CELL, cellToMove.GetComponent<GridCell>()); //CardPanel.ShowCardsFromTile
-                PlayerSetup.GetPlayerSetup().SubtractStamina(1);
-            }
+            cellToMove = gridField[gridScript.XCord + xMove, gridScript.YCord + yMove];
         }
         catch (Exception e)
         {
             Debug.Log(e);
         }
+
+        if (cellToMove != null && cellToMove.GetComponent<GridCell>().isEnableToMove)
+        {
+            //TODO КОРУТИНА НА АНИМАЦИЮ
+            yield return StartCoroutine(Animation(direction));
+
+            PlayerAnimator.SetFloat("RunRight", 0);
+            PlayerAnimator.SetFloat("RunLeft", 0);
+            
+            player.transform.SetParent(cellToMove.transform);
+            player.transform.localPosition = new Vector3(0, 0, 0);
+            cellToMove.GetComponent<GridCell>().visitTile();
+            Messenger.Broadcast(GameEvent.PLAYER_MOVE_ON_CELL,
+                cellToMove.GetComponent<GridCell>()); //CardPanel.ShowCardsFromTile
+            PlayerSetup.GetPlayerSetup().SubtractStamina(1);
+        }
+
+
+        yield return null;
+    }
+
+    private IEnumerator Animation(DraggedDirection direction)
+    {
+        if (direction == DraggedDirection.Left)
+        {
+            PlayerAnimator.SetFloat("RunLeft", 1);           
+        }
+        if (direction == DraggedDirection.Right)
+        {
+            PlayerAnimator.SetFloat("RunRight", 1);
+        }
+        yield return new WaitForSeconds(2.8f);
     }
 }

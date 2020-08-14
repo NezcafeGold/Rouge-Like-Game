@@ -13,10 +13,6 @@ public class Player : MonoBehaviour, IEndDragHandler, IBeginDragHandler, IDragHa
      private bool dragged = false;
      private bool needReset = false;
 
-     void Awake()
-     {
-
-     }
 
      private void Start()
      {
@@ -49,7 +45,7 @@ public class Player : MonoBehaviour, IEndDragHandler, IBeginDragHandler, IDragHa
 
      private void MoveToDirection(DraggedDirection direction)
      {
-         controllerScript.MovePlayerToDirection(direction);
+         StartCoroutine(controllerScript.MovePlayerToDirection(direction));
      }
  
      private DraggedDirection GetDragDirection(Vector3 dragVector)
@@ -57,6 +53,7 @@ public class Player : MonoBehaviour, IEndDragHandler, IBeginDragHandler, IDragHa
          float positiveX = Mathf.Abs(dragVector.x);
          float positiveY = Mathf.Abs(dragVector.y);
          DraggedDirection draggedDir;
+         
          if (positiveX > positiveY)
          {
              draggedDir = (dragVector.x > 0) ? DraggedDirection.Right : DraggedDirection.Left;
@@ -87,5 +84,11 @@ public class Player : MonoBehaviour, IEndDragHandler, IBeginDragHandler, IDragHa
      public void OnDrag(PointerEventData eventData)
      {
          
+     }
+
+     public void SetGridCell(GameObject gridCell)
+     {
+         Vector3 vct3 = gridCell.transform.localPosition;
+         transform.localPosition = vct3;
      }
 }

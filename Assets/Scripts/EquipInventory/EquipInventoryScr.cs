@@ -17,10 +17,10 @@ public class EquipInventoryScr : MonoBehaviour
     public void ShowInventory()
     {
         int order = gameObject.transform.GetComponent<Canvas>().sortingOrder;
-        if (order == 1)
+        if (order == 6)
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 0;
         else if (order == 0)
-            gameObject.transform.GetComponent<Canvas>().sortingOrder = 1;
+            gameObject.transform.GetComponent<Canvas>().sortingOrder = 6;
 
         if (!inv.activeSelf)
         {
@@ -34,10 +34,10 @@ public class EquipInventoryScr : MonoBehaviour
     public void ShowSpellBook()
     {
         int order = gameObject.transform.GetComponent<Canvas>().sortingOrder;
-        if (order == 1)
+        if (order == 6)
             gameObject.transform.GetComponent<Canvas>().sortingOrder = 0;
         else if (order == 0)
-            gameObject.transform.GetComponent<Canvas>().sortingOrder = 1;
+            gameObject.transform.GetComponent<Canvas>().sortingOrder = 6;
 
         if (!sb.activeSelf)
         {
