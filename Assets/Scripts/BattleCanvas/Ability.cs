@@ -265,5 +265,6 @@ public class Ability : MonoBehaviour
                 PlayerSetup.GetPlayerSetup().AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
+        /////
     }
 }
