@@ -25,7 +25,7 @@ public class AnimationToBattle : MonoBehaviour
 
     public void StartAnimation()
     {
-        GetComponent<Canvas>().sortingOrder = 3;
+        GetComponent<Canvas>().sortingOrder = 8;
         GetComponent<Animation>().Play(GetComponent<Animation>().clip.name);
     }
 }

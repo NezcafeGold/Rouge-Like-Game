@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DiceField : MonoBehaviour
 {
@@ -13,18 +11,22 @@ public class DiceField : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
-        GenerateDices();
         isEnable = true;
     }
 
     void Awake()
     {
-        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, RollTheDiceFromMessenger );
+        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, RollTheDiceFromMessenger);
+        Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
     }
 
     private void GenerateDices()
     {
+        if (side == Side.PLAYER)
+            diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
+        else if (side == Side.ENEMY)
+            diceCount = transform.parent.Find("EnemyNums").GetComponent<EnemyNums>().DiceAmount;
+        
         for (int i = 0; i < diceCount; i++)
         {
             Instantiate(dice, transform);

@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
+using TMPro;
 using UnityEngine;
 
 public class EnemyPanel : MonoBehaviour
 {
-    void Awake()
+    private void Awake()
     {
         Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
     }
 
     private void AddEnemyCard(GameObject go)

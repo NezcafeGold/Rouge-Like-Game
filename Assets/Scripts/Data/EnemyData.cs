@@ -10,6 +10,7 @@ namespace DefaultNamespace
         [SerializeField] private Sprite spriteEnemy;
         [SerializeField] private int hpEnemy;
         [SerializeField] private int attackEnemy;
+        [SerializeField] private int diceAmount;
         [SerializeField] private string description = "";
         [SerializeField] private List<AbilityData> abilityData;
 
@@ -47,6 +48,12 @@ namespace DefaultNamespace
         {
             get { return abilityData; }
             set { abilityData = value; }
+        }
+
+        public int DiceAmount
+        {
+            get { return diceAmount; }
+            set { diceAmount = value; }
         }
     }
 }

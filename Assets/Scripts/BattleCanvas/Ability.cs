@@ -120,7 +120,7 @@ public class Ability : MonoBehaviour
             }
         }
     }
-    
+
     private void AddDiceSideForEnemy(ColorEnum colorEnum)
     {
         if (side == Side.ENEMY)
@@ -193,5 +193,61 @@ public class Ability : MonoBehaviour
 
     private class AbilitySpell
     {
+        private GameObject fromCharacter;
+
+        private GameObject toCharacter;
+
+        private Ability ability;
+
+        public AbilitySpell(GameObject fromCharacter, GameObject toCharacter, Ability ability)
+        {
+            this.fromCharacter = fromCharacter;
+            this.toCharacter = toCharacter;
+            this.ability = ability;
+        }
+
+        public void DoAbilitySpell()
+        {
+            switch (ability.abilityData.AbilityEnum)
+            {
+                case AbilityData.AbilitityEnum.ATTACK_GAIN:
+                    AttackGain();
+                    break;
+                case AbilityData.AbilitityEnum.HEALTH_GAIN:
+                    HealthGain();
+                    break;
+                case AbilityData.AbilitityEnum.DODGE_GAIN:
+                    DodgeGain();
+                    break;
+                case AbilityData.AbilitityEnum.DICE_DECREASE:
+                    DiceDecrease();
+                    break;               
+            }
+
+            
+        }
+        
+        //Усиление атаки
+        private void AttackGain()
+        {
+        }
+
+        //Усиление защиты
+        private void HealthGain()
+        {
+            
+        }
+        
+        //Уклонение
+        private void DodgeGain()
+        {
+            
+        }
+        
+        //Сжигаение кубика
+        private void DiceDecrease()
+        {            
+        }
+        
     }
 }

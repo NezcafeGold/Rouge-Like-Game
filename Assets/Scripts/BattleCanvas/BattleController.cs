@@ -40,8 +40,6 @@ public class BattleController : MonoBehaviour
         {
             CURRENT_TURN = ENEMY_TURN;
             Messenger.Broadcast(GameEvent.BATTLE_ENEMY_TURN);
-        }
-        
-        
+        }  
     }
 }
