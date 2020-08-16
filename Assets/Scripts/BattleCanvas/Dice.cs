@@ -84,6 +84,6 @@ public class Dice : MonoBehaviour
             Messenger.Broadcast<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, colorEnum);
         }
 
-        Messenger.Broadcast(GameEvent.SHOW_BATTLE_CONTROLLER);
+        Messenger.Broadcast(GameEvent.SHOW_BATTLE_BUTTON);
     }
 }

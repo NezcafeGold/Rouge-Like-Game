@@ -29,6 +29,7 @@ public class Ability : MonoBehaviour
 
     private bool isEnableToClick;
     private Side side;
+    private AbilitySpell abilitySpell;
 
     public int CurrentPointsFromDices
     {
@@ -42,14 +43,14 @@ public class Ability : MonoBehaviour
     {
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
-        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, ApplyStaminaPoints);
+        Messenger.AddListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, ApplyStaminaPoints);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
-        Messenger.RemoveListener(GameEvent.BATTLE_ENEMY_TURN, ApplyStaminaPoints);
+        Messenger.RemoveListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, ApplyStaminaPoints);
     }
 
     private void Start()
@@ -191,18 +192,22 @@ public class Ability : MonoBehaviour
         return color;
     }
 
+    public void HandleAbility()
+    {
+        if (abilitySpell == null)
+        {
+            abilitySpell = new AbilitySpell(this);
+        }
+
+        abilitySpell.DoAbilitySpell();
+    }
+
     private class AbilitySpell
     {
-        private GameObject fromCharacter;
-
-        private GameObject toCharacter;
-
         private Ability ability;
 
-        public AbilitySpell(GameObject fromCharacter, GameObject toCharacter, Ability ability)
+        public AbilitySpell(Ability ability)
         {
-            this.fromCharacter = fromCharacter;
-            this.toCharacter = toCharacter;
             this.ability = ability;
         }
 
@@ -221,33 +226,44 @@ public class Ability : MonoBehaviour
                     break;
                 case AbilityData.AbilitityEnum.DICE_DECREASE:
                     DiceDecrease();
-                    break;               
+                    break;
             }
-
-            
         }
-        
+
         //Усиление атаки
         private void AttackGain()
         {
+            if (ability.side == Side.PLAYER)
+            {
+                PlayerSetup.GetPlayerSetup().AddExtAttack(ability.valueCharge * ability.abilityData.ValueForAbility);
+            }
         }
 
         //Усиление защиты
         private void HealthGain()
         {
-            
+            if (ability.side == Side.PLAYER)
+            {
+                PlayerSetup.GetPlayerSetup().AddExtHealth(ability.valueCharge * ability.abilityData.ValueForAbility);
+            }
         }
-        
+
         //Уклонение
         private void DodgeGain()
         {
-            
+            if (ability.side == Side.PLAYER)
+            {
+                PlayerSetup.GetPlayerSetup().AddExtDodge(ability.valueCharge * ability.abilityData.ValueForAbility);
+            }
         }
-        
+
         //Сжигаение кубика
         private void DiceDecrease()
-        {            
+        {
+            if (ability.side == Side.PLAYER)
+            {
+                PlayerSetup.GetPlayerSetup().AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
+            }
         }
-        
     }
 }

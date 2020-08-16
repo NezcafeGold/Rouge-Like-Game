@@ -16,7 +16,32 @@ public class PlayerSetup : MonoBehaviour
     [SerializeField] public int CurrentStaminaPoints;
     [SerializeField] public int TotalStaminaPoints;
 
+
     private int defaultAttack;
+    private int extAttack;
+    private int extHP;
+    private int extDodge;
+    private int extDiceDecrease;
+
+    public int ExtAttack
+    {
+        get { return extAttack; }
+    }
+
+    public int ExtHp
+    {
+        get { return extHP; }
+    }
+
+    public int ExtDodge
+    {
+        get { return extDodge; }
+    }
+
+    public int ExtDiceDecrease
+    {
+        get { return extDiceDecrease; }
+    }
 
     private void Start()
     {
@@ -28,12 +53,35 @@ public class PlayerSetup : MonoBehaviour
         return GameObject.Find("PlayerSetup").GetComponent<PlayerSetup>();
     }
 
-    public void UpdateAttack(int attack)
+    public void AddAttack(int attack)
     {
         Attack = defaultAttack + attack;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
+
+    public void AddExtAttack(int attack)
+    {
+        extAttack += attack;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
+    }
+
+    public void AddExtHealth(int hp)
+    {
+        extHP += hp;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
+    }
+
+    public void AddExtDodge(int dodge)
+    {
+        extDodge += dodge;
+    }
+
+    public void AddExtDiceDecrease(int diceDecrease)
+    {
+        extDiceDecrease += diceDecrease;
+    }
+    
     public void SubtractStamina(int value)
     {
         CurrentStaminaPoints -= value;
@@ -47,4 +95,6 @@ public class PlayerSetup : MonoBehaviour
         if (CurrentStaminaPoints > TotalStaminaPoints) CurrentStaminaPoints = TotalStaminaPoints;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
+
+
 }

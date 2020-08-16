@@ -16,7 +16,7 @@ public class DiceField : MonoBehaviour
 
     void Awake()
     {
-        Messenger.AddListener(GameEvent.BATTLE_ENEMY_TURN, RollTheDiceFromMessenger);
+        Messenger.AddListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, RollTheDiceEnemy);
         Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
     }
 
@@ -33,10 +33,11 @@ public class DiceField : MonoBehaviour
         }
     }
 
-    private void RollTheDiceFromMessenger()
+    private void RollTheDiceEnemy()
     {
         if (side == Side.ENEMY)
             RollTheDices();
+        BattleController.NextTurn();
     }
 
     public void RollTheDices()

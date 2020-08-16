@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 
-public class AbilityPlayer : MonoBehaviour
+public class AbilityPanel : MonoBehaviour
 {
     [SerializeField] private Ability abilityPrefab;
 
