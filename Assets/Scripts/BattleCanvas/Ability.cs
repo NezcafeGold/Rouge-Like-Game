@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using System;
+using DefaultNamespace;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,15 +80,6 @@ public class Ability : MonoBehaviour
         this.side = side;
     }
 
-    private void AddPointsOnChargePanel()
-    {
-        pointsOnChargePanel++;
-        if (pointsOnChargePanel >= abilityData.LuckCount)
-        {
-            valueCharge = (int) pointsOnChargePanel / abilityData.LuckCount;
-        }
-    }
-
     public void AddPointsFromStamina()
     {
         if (isEnableToAddPoints && PlayerSetup.GetPlayerSetup().CurrentStaminaPoints > 0 &&
@@ -97,6 +89,7 @@ public class Ability : MonoBehaviour
             freePointsFromStamina++;
             UpdatePointsVisual(false);
             resetButton.SetActive(true);
+            HandleAbility();
         }
     }
 
@@ -106,6 +99,8 @@ public class Ability : MonoBehaviour
         freePointsFromStamina = 0;
         resetButton.SetActive(false);
         UpdatePointsVisual(true);
+
+        HandleAbility();
     }
 
     private void AddDiceSideForPlayer(ColorEnum colorEnum)
@@ -116,7 +111,7 @@ public class Ability : MonoBehaviour
             if (abilityData.Color == colorEnum)
             {
                 currentPointsFromDices++;
-                AddPointsOnChargePanel();
+                pointsOnChargePanel++;
                 UpdatePointsVisual(false);
             }
         }
@@ -130,7 +125,7 @@ public class Ability : MonoBehaviour
             if (abilityData.Color == colorEnum)
             {
                 currentPointsFromDices++;
-                AddPointsOnChargePanel();
+                pointsOnChargePanel++;
                 UpdatePointsVisual(false);
             }
         }
@@ -194,6 +189,7 @@ public class Ability : MonoBehaviour
 
     public void HandleAbility()
     {
+        valueCharge = ((pointsOnChargePanel + freePointsFromStamina) / abilityData.LuckCount);
         if (abilitySpell == null)
         {
             abilitySpell = new AbilitySpell(this);
@@ -262,9 +258,9 @@ public class Ability : MonoBehaviour
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.GetPlayerSetup().AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
+                PlayerSetup.GetPlayerSetup()
+                    .AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
-        /////
     }
 }

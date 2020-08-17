@@ -62,24 +62,26 @@ public class PlayerSetup : MonoBehaviour
 
     public void AddExtAttack(int attack)
     {
-        extAttack += attack;
+        extAttack = attack;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
     public void AddExtHealth(int hp)
     {
-        extHP += hp;
+        extHP = hp;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
     public void AddExtDodge(int dodge)
     {
-        extDodge += dodge;
+        extDodge = dodge;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
     public void AddExtDiceDecrease(int diceDecrease)
     {
-        extDiceDecrease += diceDecrease;
+        extDiceDecrease = diceDecrease;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
     
     public void SubtractStamina(int value)
