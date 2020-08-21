@@ -61,7 +61,7 @@ public class EquipScr : MonoBehaviour
             }
         }
 
-        PlayerSetup.GetPlayerSetup().AddAttack(attack);
+        PlayerSetup.Instance.AddAttack(attack);
     }
 
     // Update is called once per frame

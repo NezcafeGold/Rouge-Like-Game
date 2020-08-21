@@ -3,15 +3,14 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    [CreateAssetMenu(menuName = "TileCardData")]
-    public class TileCard : ScriptableObject
+    [CreateAssetMenu(menuName = "TypeTileCardData")]
+    public class TypeTileCardData : ScriptableObject
     {
         public int id;
         public string name;
-        public Sprite sprite;
         public TileCardType tileCardWithType;
         public List<StructCardTypeAmount> cardList;
-
-
+        public Sprite openedTile;
+        public Sprite visitedTile;
     }
 }

@@ -36,22 +36,23 @@ public class ExtPlayerNum : MonoBehaviour
 
     private void UpdateExtPlayerNum()
     {
-        if (PlayerSetup.GetPlayerSetup().ExtAttack > 0)
+        PlayerSetup playerSetup = PlayerSetup.Instance;
+        if (playerSetup.ExtAttack > 0)
             extAttack.gameObject.SetActive(true);
         else
             extAttack.gameObject.SetActive(false);
 
-        if (PlayerSetup.GetPlayerSetup().ExtHp > 0)
+        if (playerSetup.ExtHp > 0)
             extHP.gameObject.SetActive(true);
         else
             extHP.gameObject.SetActive(false);
 
-        if (PlayerSetup.GetPlayerSetup().ExtDodge > 0)
+        if (playerSetup.ExtDodge > 0)
             extDodge.gameObject.SetActive(true);
         else
             extDodge.gameObject.SetActive(false);
 
-        if (PlayerSetup.GetPlayerSetup().ExtDiceDecrease > 0)
+        if (playerSetup.ExtDiceDecrease > 0)
             extDice.gameObject.SetActive(true);
         else
             extDice.gameObject.SetActive(false);
@@ -59,13 +60,13 @@ public class ExtPlayerNum : MonoBehaviour
         try
         {
             extAttack.Find("ExtAttackNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtAttack;
+                " + " + playerSetup.ExtAttack;
             extHP.Find("ExtHPNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtHp;
+                " + " + playerSetup.ExtHp;
             extDodge.Find("ExtDodgeNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtDodge + "%";
+                " + " + playerSetup.ExtDodge + "%";
             extDice.Find("ExtDiceNum").GetComponent<TextMeshProUGUI>().text =
-                "" + PlayerSetup.GetPlayerSetup().ExtDiceDecrease;
+                "" + playerSetup.ExtDiceDecrease;
         }
         catch (Exception e)
         {

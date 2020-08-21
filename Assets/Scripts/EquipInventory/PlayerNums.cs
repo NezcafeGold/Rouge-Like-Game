@@ -24,23 +24,19 @@ namespace EquipInventory
 
         private void UpdatePlayerNums()
         {
-            attack = PlayerSetup.GetPlayerSetup().Attack;
-            currentLive = PlayerSetup.GetPlayerSetup().CurrentLive;
-            totalLive = PlayerSetup.GetPlayerSetup().TotalLives;
-            diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
-            currentStamina = PlayerSetup.GetPlayerSetup().CurrentStaminaPoints;
-            totalStamina = PlayerSetup.GetPlayerSetup().TotalStaminaPoints;
+            PlayerSetup playerSetup = PlayerSetup.Instance;
+            attack = playerSetup.Attack;
+            currentLive = playerSetup.CurrentLive;
+            totalLive = playerSetup.TotalLives;
+            diceCount = playerSetup.DiceCount;
+            currentStamina = playerSetup.CurrentStaminaPoints;
+            totalStamina = playerSetup.TotalStaminaPoints;
 
             transform.Find("Attack").Find("AttackNum").GetComponent<TextMeshProUGUI>().text = attack.ToString();
             transform.Find("Live").Find("LiveNum").GetComponent<TextMeshProUGUI>().text = currentLive + "/" + totalLive;
             transform.Find("Cube").Find("CubeNum").GetComponent<TextMeshProUGUI>().text = diceCount.ToString();
             transform.Find("Stamina").Find("StaminaNum").GetComponent<TextMeshProUGUI>().text =
                 currentStamina + "/" + totalStamina;
-        }
-
-        public PlayerSetup GetPlayerNums()
-        {
-            return PlayerSetup.GetPlayerSetup();
         }
     }
 }

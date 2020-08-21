@@ -23,7 +23,7 @@ public class DiceField : MonoBehaviour
     private void GenerateDices()
     {
         if (side == Side.PLAYER)
-            diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
+            diceCount = PlayerSetup.Instance.DiceCount;
         else if (side == Side.ENEMY)
             diceCount = transform.parent.Find("EnemyNums").GetComponent<EnemyNums>().DiceAmount;
         

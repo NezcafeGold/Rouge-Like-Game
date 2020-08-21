@@ -18,17 +18,17 @@ public class CardsPanel : MonoBehaviour
 
     private void Awake()
     {
-        Messenger.AddListener<GridCell>(GameEvent.PLAYER_MOVE_ON_CELL, ShowCardsFromTile);
+        Messenger.AddListener<TileCell>(GameEvent.PLAYER_MOVE_ON_CELL, ShowCardsFromTile);
         Messenger.AddListener(GameEvent.CLOSE_CARDS_PANEL, CloseCardsPanel);
     }
 
     //Показ карт на панели, информация берется из gridCell. Если тип бо
-    private void ShowCardsFromTile(GridCell gridCell)
+    private void ShowCardsFromTile(TileCell tileCell)
     {
-        if (!gridCell.Visited)
+        if (!tileCell.TileСellValues.IsVisited)
         {
-            TileCard tileCard = gridCell.TileCard;
-            foreach (StructCardTypeAmount sctruct in tileCard.cardList)
+            TypeTileCardData typeTileCardData = tileCell.TileСellValues.TypeTileCardData;
+            foreach (StructCardTypeAmount sctruct in typeTileCardData.cardList)
             {
                 int amount = sctruct.amount;
                 for (int i = 0; i < amount; i++)
@@ -43,7 +43,7 @@ public class CardsPanel : MonoBehaviour
 
             gameObject.SetActive(true);
             Messenger.Broadcast(GameEvent.SHUFFLE_BUTTON);
-            gridCell.Visited = true;
+            tileCell.TileСellValues.IsVisited = true;
         }
     }
 

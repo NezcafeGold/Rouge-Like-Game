@@ -82,10 +82,10 @@ public class Ability : MonoBehaviour
 
     public void AddPointsFromStamina()
     {
-        if (isEnableToAddPoints && PlayerSetup.GetPlayerSetup().CurrentStaminaPoints > 0 &&
+        if (isEnableToAddPoints && PlayerSetup.Instance.CurrentStaminaPoints > 0 &&
             freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices && isEnableToClick)
         {
-            PlayerSetup.GetPlayerSetup().SubtractStamina(1);
+            PlayerSetup.Instance.SubtractStamina(1);
             freePointsFromStamina++;
             UpdatePointsVisual(false);
             resetButton.SetActive(true);
@@ -95,7 +95,7 @@ public class Ability : MonoBehaviour
 
     public void ResetPointsFromStamina()
     {
-        PlayerSetup.GetPlayerSetup().AddStamina(freePointsFromStamina);
+        PlayerSetup.Instance.AddStamina(freePointsFromStamina);
         freePointsFromStamina = 0;
         resetButton.SetActive(false);
         UpdatePointsVisual(true);
@@ -231,7 +231,7 @@ public class Ability : MonoBehaviour
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.GetPlayerSetup().AddExtAttack(ability.valueCharge * ability.abilityData.ValueForAbility);
+                PlayerSetup.Instance.AddExtAttack(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
 
@@ -240,7 +240,7 @@ public class Ability : MonoBehaviour
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.GetPlayerSetup().AddExtHealth(ability.valueCharge * ability.abilityData.ValueForAbility);
+                PlayerSetup.Instance.AddExtHealth(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
 
@@ -249,7 +249,7 @@ public class Ability : MonoBehaviour
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.GetPlayerSetup().AddExtDodge(ability.valueCharge * ability.abilityData.ValueForAbility);
+                PlayerSetup.Instance.AddExtDodge(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
 
@@ -258,8 +258,7 @@ public class Ability : MonoBehaviour
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.GetPlayerSetup()
-                    .AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
+                PlayerSetup.Instance.AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
             }
         }
     }

@@ -2,11 +2,11 @@
 using DefaultNamespace;
 using UnityEngine;
 
-public class Level : MonoBehaviour
+[CreateAssetMenu(menuName = "LevelData")]
+public class LevelData : ScriptableObject
 {
-    [SerializeField]private int id;
-    [SerializeField]private string name;
-
+    [SerializeField] private int id;
+    [SerializeField] private string name;
     [SerializeField] private List<SctructTileTypeAmount> listOfTiles;
     [SerializeField] private List<EnemyData> enemies;
     [SerializeField] private List<WeaponData> weapons;
@@ -39,10 +39,5 @@ public class Level : MonoBehaviour
     {
         get { return weapons; }
         set { weapons = value; }
-    }
-
-    void Awake()
-    {
-
     }
 }

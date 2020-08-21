@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Singleton;
 using UnityEngine;
 
-public class PlayerSetup : MonoBehaviour
+public class PlayerSetup : Singleton<PlayerSetup>
 {
     [SerializeField] [Tooltip("Не более 5")]
     public List<AbilityData> Abilities;
@@ -46,11 +47,6 @@ public class PlayerSetup : MonoBehaviour
     private void Start()
     {
         defaultAttack = Attack;
-    }
-
-    public static PlayerSetup GetPlayerSetup()
-    {
-        return GameObject.Find("PlayerSetup").GetComponent<PlayerSetup>();
     }
 
     public void AddAttack(int attack)
