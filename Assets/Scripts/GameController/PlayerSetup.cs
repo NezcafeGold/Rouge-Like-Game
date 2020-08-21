@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+﻿using System.Collections.Generic;
 using Singleton;
 using UnityEngine;
 
@@ -55,7 +53,6 @@ public class PlayerSetup : Singleton<PlayerSetup>
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
-
     public void AddExtAttack(int attack)
     {
         extAttack = attack;
@@ -79,7 +76,7 @@ public class PlayerSetup : Singleton<PlayerSetup>
         extDiceDecrease = diceDecrease;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
-    
+
     public void SubtractStamina(int value)
     {
         CurrentStaminaPoints -= value;
@@ -93,6 +90,4 @@ public class PlayerSetup : Singleton<PlayerSetup>
         if (CurrentStaminaPoints > TotalStaminaPoints) CurrentStaminaPoints = TotalStaminaPoints;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
-
-
 }

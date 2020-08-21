@@ -19,7 +19,6 @@ public class EquipScr : MonoBehaviour
 
     void Awake()
     {
-        Messenger.AddListener(GameEvent.UPDATE_EQUIP, UpdateEquip);
         Messenger.AddListener(GameEvent.BATTLE_START, AddCardsToBattlePanel);
     }
 
@@ -46,28 +45,23 @@ public class EquipScr : MonoBehaviour
         Messenger.Broadcast<List<GameObject>>(GameEvent.ADD_ITEMS_TO_BATTLE, list);
     }
 
-    private void UpdateEquip()
-    {
-        int attack = 0;
-        foreach (Transform child in transform)
-        {
-            if (child.childCount > 0)
-            {
-                var scScr = child.GetChild(0).GetComponent<SmallCardInvScr>();
-                if (scScr.WeaponData != null)
-                {
-                    attack += scScr.WeaponData.AttackWeapon;
-                }
-            }
-        }
-
-        PlayerSetup.Instance.AddAttack(attack);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+//    private void UpdateEquip()
+//    {
+//        int attack = 0;
+//        foreach (Transform child in transform)
+//        {
+//            if (child.childCount > 0)
+//            {
+//                var scScr = child.GetChild(0).GetComponent<SmallCardInvScr>();
+//                if (scScr.WeaponData != null)
+//                {
+//                    attack += scScr.WeaponData.AttackWeapon;
+//                }
+//            }
+//        }
+//
+//        PlayerSetup.Instance.AddAttack(attack);
+//    }
 
     private void GenerateCardPlaces()
     {
