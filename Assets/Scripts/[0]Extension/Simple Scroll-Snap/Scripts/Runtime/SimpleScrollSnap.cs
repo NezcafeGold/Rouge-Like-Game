@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -131,12 +132,12 @@ namespace DanielLochner.Assets.SimpleScrollSnap
         {
             Messenger.RemoveListener<List<GameObject>>(GameEvent.ADD_ITEMS_TO_BATTLE, HandleItems);
         }
-        
+
         private void HandleItems(List<GameObject> list)
         {
             if (list.Count != 0 && list.Count < 3)
             {
-                for (int i = 0; i <= 3-list.Count; i++)
+                for (int i = 0; i <= 3 - list.Count; i++)
                 {
                     list.Add(list[i]);
                 }
@@ -146,6 +147,7 @@ namespace DanielLochner.Assets.SimpleScrollSnap
             {
                 AddToFront(item);
             }
+            onPanelSelected.Invoke();
         }
 
 
@@ -796,11 +798,22 @@ namespace DanielLochner.Assets.SimpleScrollSnap
                 return;
             }
 
-            panel = Instantiate(panel, Content, false);
+            bool isSmallCard = false;
+            WeaponData wp = null;
             if (panel.GetComponent<SmallCardInvScr>() != null)
+                isSmallCard = true;
+
+            if (isSmallCard)
+                wp = panel.GetComponent<SmallCardInvScr>().WeaponData;
+
+            panel = Instantiate(panel, Content, false);
+
+            if (isSmallCard)
             {
+                panel.GetComponent<SmallCardInvScr>().WeaponData = wp;
                 panel.GetComponent<DragAndDropItem>().enabled = false;
             }
+
             panel.transform.SetSiblingIndex(index);
 
             if (Validate())

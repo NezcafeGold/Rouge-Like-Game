@@ -14,12 +14,18 @@ public class EquipScr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateCardPlaces();
+            GenerateCardPlaces(); 
+    
     }
 
-    void Awake()
+    private void Awake()
     {
         Messenger.AddListener(GameEvent.BATTLE_START, AddCardsToBattlePanel);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BATTLE_START, AddCardsToBattlePanel);
     }
 
     private void AddCardsToBattlePanel()
@@ -36,6 +42,7 @@ public class EquipScr : MonoBehaviour
             {
                 continue;
             }
+
             if (card != null)
             {
                 list.Add(card);
@@ -45,23 +52,6 @@ public class EquipScr : MonoBehaviour
         Messenger.Broadcast<List<GameObject>>(GameEvent.ADD_ITEMS_TO_BATTLE, list);
     }
 
-//    private void UpdateEquip()
-//    {
-//        int attack = 0;
-//        foreach (Transform child in transform)
-//        {
-//            if (child.childCount > 0)
-//            {
-//                var scScr = child.GetChild(0).GetComponent<SmallCardInvScr>();
-//                if (scScr.WeaponData != null)
-//                {
-//                    attack += scScr.WeaponData.AttackWeapon;
-//                }
-//            }
-//        }
-//
-//        PlayerSetup.Instance.AddAttack(attack);
-//    }
 
     private void GenerateCardPlaces()
     {

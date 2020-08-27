@@ -11,12 +11,7 @@ public class SmallCardInvScr : MonoBehaviour
     //private bool hasItem;
     private WeaponData weaponData;
     private Sprite standartSprite;
-
-//    public bool HasItem
-//    {
-//        get { return hasItem; }
-//        set { hasItem = value; }
-//    }
+    private int attack;
 
     public WeaponData WeaponData
     {
@@ -29,10 +24,16 @@ public class SmallCardInvScr : MonoBehaviour
     {
         standartSprite = gameObject.GetComponent<Image>().sprite;
     }
+    
+//    private void Awake()
+//    {
+//        DontDestroyOnLoad(transform);
+//    }
 
     public void AddWeaponData(WeaponData weaponData)
     {
         this.weaponData = weaponData;
+        attack = weaponData.AttackWeapon;
         gameObject.transform.parent.GetComponent<CellSmallCardScr>().HasItem = true;
         UpdateVisualCard();
     }

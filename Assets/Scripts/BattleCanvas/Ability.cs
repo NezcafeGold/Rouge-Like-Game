@@ -9,13 +9,11 @@ public class Ability : MonoBehaviour
     [SerializeField] private ChargePoint chargePoint;
     public Color ColorAb;
 
-    private AbilityData abilityData;
 
     //сколько очков добавилось
     private int pointsOnChargePanel;
 
-    //сколько зарядов имеется (все очки / очки удачи)
-    private int valueCharge;
+
     private int pointsForLuck;
 
     private bool isEnableToAddPoints;
@@ -29,8 +27,16 @@ public class Ability : MonoBehaviour
     private GameObject resetButton;
 
     private bool isEnableToClick;
-    private Side side;
-    private AbilitySpell abilitySpell;
+
+    public AbilityData abilityData;
+
+    public Side side;
+
+    public int ValueAb;
+
+    //сколько зарядов имеется (все очки / очки удачи)
+    public int valueCharge;
+
 
     public int CurrentPointsFromDices
     {
@@ -44,14 +50,14 @@ public class Ability : MonoBehaviour
     {
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
-        Messenger.AddListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, ApplyStaminaPoints);
+        Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, ApplyStaminaPoints);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
-        Messenger.RemoveListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, ApplyStaminaPoints);
+        Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, ApplyStaminaPoints);
     }
 
     private void Start()
@@ -83,7 +89,8 @@ public class Ability : MonoBehaviour
     public void AddPointsFromStamina()
     {
         if (isEnableToAddPoints && PlayerSetup.Instance.CurrentStaminaPoints > 0 &&
-            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices && isEnableToClick)
+            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices && isEnableToClick &&
+            side == Side.PLAYER)
         {
             PlayerSetup.Instance.SubtractStamina(1);
             freePointsFromStamina++;
@@ -140,12 +147,16 @@ public class Ability : MonoBehaviour
             {
                 t.Find("Point").gameObject.SetActive(false);
             }
+
+            freePointsFromStamina = 0;
         }
 
         for (int i = 0; i < pointsOnChargePanel + freePointsFromStamina; i++)
         {
             cpObj.transform.GetChild(i).Find("Point").gameObject.SetActive(true);
         }
+
+        HandleAbility();
     }
 
     public void SetData(AbilityData abd)
@@ -156,6 +167,11 @@ public class Ability : MonoBehaviour
         ab.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = abd.DescriptionAbility;
         ab.transform.Find("LuckCount").GetComponent<TextMeshProUGUI>().text = abd.LuckCount.ToString();
         ab.transform.Find("Border").GetComponent<Image>().color = GetColor(abilityData.Color);
+
+
+        ab.transform.Find("Luck").GetComponent<Image>().color = GetColor(abilityData.Color);
+        ab.transform.Find("Luck").gameObject.SetActive(false);
+
         var chargePanel = ab.transform.Find("ChargePanel");
         pointsForLuck = abd.LuckCount;
         for (int i = 0; i < abd.CellLuckCount; i++)
@@ -189,77 +205,17 @@ public class Ability : MonoBehaviour
 
     public void HandleAbility()
     {
-        valueCharge = ((pointsOnChargePanel + freePointsFromStamina) / abilityData.LuckCount);
-        if (abilitySpell == null)
+        valueCharge = (pointsOnChargePanel + freePointsFromStamina) / abilityData.LuckCount;
+        ValueAb = valueCharge * abilityData.ValueForAbility;
+        if (valueCharge > 0)
         {
-            abilitySpell = new AbilitySpell(this);
+            gameObject.GetComponent<Ability>().transform.Find("Luck").gameObject.SetActive(true);
+            gameObject.GetComponent<Ability>().transform.Find("Luck").Find("Text").GetComponent<TextMeshProUGUI>().text
+                = valueCharge.ToString();
         }
-
-        abilitySpell.DoAbilitySpell();
-    }
-
-    private class AbilitySpell
-    {
-        private Ability ability;
-
-        public AbilitySpell(Ability ability)
+        else if (valueCharge == 0)
         {
-            this.ability = ability;
-        }
-
-        public void DoAbilitySpell()
-        {
-            switch (ability.abilityData.AbilityEnum)
-            {
-                case AbilityData.AbilitityEnum.ATTACK_GAIN:
-                    AttackGain();
-                    break;
-                case AbilityData.AbilitityEnum.HEALTH_GAIN:
-                    HealthGain();
-                    break;
-                case AbilityData.AbilitityEnum.DODGE_GAIN:
-                    DodgeGain();
-                    break;
-                case AbilityData.AbilitityEnum.DICE_DECREASE:
-                    DiceDecrease();
-                    break;
-            }
-        }
-
-        //Усиление атаки
-        private void AttackGain()
-        {
-            if (ability.side == Side.PLAYER)
-            {
-                PlayerSetup.Instance.AddExtAttack(ability.valueCharge * ability.abilityData.ValueForAbility);
-            }
-        }
-
-        //Усиление защиты
-        private void HealthGain()
-        {
-            if (ability.side == Side.PLAYER)
-            {
-                PlayerSetup.Instance.AddExtHealth(ability.valueCharge * ability.abilityData.ValueForAbility);
-            }
-        }
-
-        //Уклонение
-        private void DodgeGain()
-        {
-            if (ability.side == Side.PLAYER)
-            {
-                PlayerSetup.Instance.AddExtDodge(ability.valueCharge * ability.abilityData.ValueForAbility);
-            }
-        }
-
-        //Сжигаение кубика
-        private void DiceDecrease()
-        {
-            if (ability.side == Side.PLAYER)
-            {
-                PlayerSetup.Instance.AddExtDiceDecrease(ability.valueCharge * ability.abilityData.ValueForAbility);
-            }
+            gameObject.GetComponent<Ability>().transform.Find("Luck").gameObject.SetActive(false);
         }
     }
 }

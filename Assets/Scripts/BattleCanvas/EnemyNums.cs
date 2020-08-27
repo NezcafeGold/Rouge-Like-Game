@@ -11,27 +11,20 @@ public class EnemyNums : MonoBehaviour, INums
 
     private void Awake()
     {
-        Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemy);
+        Messenger.AddListener(GameEvent.UPDATE_ENEMY_STATS, UpdateVisualStats);
     }
 
     private void OnDestroy()
     {
-        Messenger.RemoveListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemy);
-    }
-
-    public void AddEnemy(GameObject enemyCard)
-    {
-        this.enemyCard = enemyCard;
-
-        EnemyData enemyData = enemyCard.GetComponent<CardScr>().EnemyData;
-        Attack = enemyData.AttackEnemy;
-        HP = enemyData.HpEnemy;
-        DiceAmount = enemyData.DiceAmount;
-        UpdateVisualStats();
+        Messenger.RemoveListener(GameEvent.UPDATE_ENEMY_STATS, UpdateVisualStats);
     }
 
     private void UpdateVisualStats()
     {
+        Attack = EnemySetup.Instance.Attack;
+        HP = EnemySetup.Instance.CurrentLive;
+        DiceAmount = EnemySetup.Instance.DiceCount;
+        
         transform.Find("Attack").Find("AttackNum").GetComponent<TextMeshProUGUI>().text = Attack.ToString();
         transform.Find("HP").Find("HPNum").GetComponent<TextMeshProUGUI>().text = HP.ToString();
         transform.Find("Dice").Find("DiceNum").GetComponent<TextMeshProUGUI>().text = DiceAmount.ToString();
