@@ -21,7 +21,7 @@ public class EnemySetup : Singleton<EnemySetup>
         Messenger.Broadcast(GameEvent.UPDATE_ENEMY_STATS);
     }
     
-    public void ChangeValueFromAbility(int value, AbilitityWhatEnum whatEnum)
+    public void ChangeValue(int value, AbilitityWhatEnum whatEnum)
     {
         switch (whatEnum)
         {

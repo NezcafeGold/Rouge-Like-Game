@@ -70,22 +70,22 @@ public class AbilityController : Singleton<AbilityController>
         {
             if (ability.side == Side.PLAYER)
             {
-                PlayerSetup.Instance.ChangeValueFromAbility(ability.ValueAb, ability.abilityData.abilityWhatEnum);
+                PlayerSetup.Instance.ChangeValue(ability.ValueAb, ability.abilityData.abilityWhatEnum);
             }
             else if (ability.side == Side.ENEMY)
             {
-                EnemySetup.Instance.ChangeValueFromAbility(ability.ValueAb, ability.abilityData.abilityWhatEnum);
+                EnemySetup.Instance.ChangeValue(ability.ValueAb, ability.abilityData.abilityWhatEnum);
             }
         }
         else if (ability.abilityData.AbilityDoEnum == AbilityDoEnum.TO_ENEMY)
         {
             if (ability.side == Side.PLAYER)
             {
-                EnemySetup.Instance.ChangeValueFromAbility(-ability.ValueAb, ability.abilityData.abilityWhatEnum);
+                EnemySetup.Instance.ChangeValue(-ability.ValueAb, ability.abilityData.abilityWhatEnum);
             }
             else if (ability.side == Side.ENEMY)
             {
-                PlayerSetup.Instance.ChangeValueFromAbility(-ability.ValueAb, ability.abilityData.abilityWhatEnum);
+                PlayerSetup.Instance.ChangeValue(-ability.ValueAb, ability.abilityData.abilityWhatEnum);
             }
         }
     }

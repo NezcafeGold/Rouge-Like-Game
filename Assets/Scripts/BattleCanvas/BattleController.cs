@@ -32,7 +32,7 @@ public class BattleController : Singleton<BattleController>
 
     public void NextTurn()
     {
-        if (CURRENT_TURN == TURNS.Length - 1)
+        if (CURRENT_TURN == TURNS.Length)
             CURRENT_TURN = PLAYER_SETUP_TURN;
         else
             CURRENT_TURN++;
@@ -106,6 +106,7 @@ public class BattleController : Singleton<BattleController>
 
     public void DealDamageToEnemy()
     {
-       // PlayerSetup.Instance.Attack;
+        EnemySetup.Instance.ChangeValue(-PlayerSetup.Instance.Attack, AbilitityWhatEnum.HEALTH);
+        Messenger.Broadcast(GameEvent.ENEMY_ANIM_DEFEND);
     }
 }

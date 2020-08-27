@@ -12,5 +12,6 @@ public class BattleButton : MonoBehaviour
     public void NextTurn()
     {
         BattleController.Instance.NextTurn();
+        gameObject.SetActive(false);
     }
 }

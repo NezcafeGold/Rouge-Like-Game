@@ -21,9 +21,34 @@ public class EnemyNums : MonoBehaviour, INums
 
     private void UpdateVisualStats()
     {
-        Attack = EnemySetup.Instance.Attack;
-        HP = EnemySetup.Instance.CurrentLive;
-        DiceAmount = EnemySetup.Instance.DiceCount;
+        EnemySetup enemySetup = EnemySetup.Instance;
+        if (Attack != enemySetup.Attack)
+        {
+            var v = enemySetup.Attack - Attack;
+            if (Attack != 0)
+                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.ATTACK,
+                    v);
+            Attack = enemySetup.Attack;
+        }
+        
+        if (HP != enemySetup.CurrentLive)
+        {
+            var v = enemySetup.CurrentLive - HP;
+            if (HP != 0)
+                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.ATTACK,
+                    v);
+            HP = enemySetup.CurrentLive;
+        }
+        
+        if (DiceAmount != enemySetup.DiceCount)
+        {
+            var v = enemySetup.DiceCount - DiceAmount;
+            if (DiceAmount != 0)
+                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.ATTACK,
+                    v);
+            DiceAmount = enemySetup.DiceCount;
+        }
+        
         
         transform.Find("Attack").Find("AttackNum").GetComponent<TextMeshProUGUI>().text = Attack.ToString();
         transform.Find("HP").Find("HPNum").GetComponent<TextMeshProUGUI>().text = HP.ToString();

@@ -27,13 +27,7 @@ public static class GameEvent
     public const string ENEMY_SETUP_TURN = "BATTLE_ENEMY_TURN";
     public const string BEFORE_FIGHT = "BEFORE_FIGHT";
 
-
-    public const string PLAYER_ATTACK_TURN_BEFORE_ATTACK = "PLAYER_ATTACK_TURN_BEFORE_ATTACK";
-    public const string PLAYER_ATTACK_TURN_IN_ATTACK = "PLAYER_ATTACK_TURN_IN_ATTACK";
-    public const string PLAYER_ATTACK_TURN_AFTER_ATTACK = "PLAYER_ATTACK_TURN_AFTER_ATTACK";
-    public const string ENEMY_ATTACK_TURN_BEFORE_ATTACK = "ENEMY_ATTACK_TURN_BEFORE_ATTACK";
-    public const string ENEMY_ATTACK_TURN_IN_ATTACK = "ENEMY_ATTACK_TURN_IN_ATTACK";
-    public const string ENEMY_ATTACK_TURN_AFTER_ATTACK = "ENEMY_ATTACK_TURN_AFTER_ATTACK";
     public const string ANIM_PLAYER_VALUE = "ANIM_PLAYER_VALUE";
-    
+    public const string ANIM_ENEMY_VALUE = "ANIM_ENEMY_VALUE";
+    public const string ENEMY_ANIM_DEFEND = "ENEMY_ANIM_DEFEND";
 }

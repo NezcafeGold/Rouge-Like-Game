@@ -44,7 +44,7 @@ public class PlayerSetup : Singleton<PlayerSetup>
                 .WeaponData.AttackWeapon);
     }
 
-    public void ChangeValueFromAbility(int value, AbilitityWhatEnum whatEnum)
+    public void ChangeValue(int value, AbilitityWhatEnum whatEnum)
     {
         switch (whatEnum)
         {
@@ -67,8 +67,6 @@ public class PlayerSetup : Singleton<PlayerSetup>
         }
 
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
-//        if (value != 0)
-//            Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, whatEnum, value);
     }
 
     public void DefaultAttack()
