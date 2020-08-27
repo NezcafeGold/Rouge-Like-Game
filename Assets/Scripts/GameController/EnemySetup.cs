@@ -42,4 +42,10 @@ public class EnemySetup : Singleton<EnemySetup>
         }
         Messenger.Broadcast(GameEvent.UPDATE_ENEMY_STATS);
     }
+
+    public void SetDamage(int damage)
+    {
+        CurrentLive -= damage;
+        Messenger.Broadcast(GameEvent.UPDATE_ENEMY_STATS);
+    }
 }

@@ -26,11 +26,42 @@ namespace EquipInventory
         private void UpdatePlayerNums()
         {
             PlayerSetup playerSetup = PlayerSetup.Instance;
-            attack = playerSetup.Attack;
-            currentLive = playerSetup.CurrentLive;
+            if (attack != playerSetup.Attack)
+            {
+                var v = playerSetup.Attack - attack;
+                if (attack != 0)
+                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.ATTACK,
+                        v);
+                attack = playerSetup.Attack;
+            }
+
+            if (currentLive != playerSetup.CurrentLive)
+            {
+                var v = playerSetup.CurrentLive - currentLive;
+                if (currentLive != 0)
+                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.HEALTH,
+                        v);
+                currentLive = playerSetup.CurrentLive;
+            }
+
+            if (diceCount != playerSetup.DiceCount)
+            {
+                var v = playerSetup.DiceCount - diceCount;
+                if (diceCount != 0)
+                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.DICE, v);
+                diceCount = playerSetup.DiceCount;
+            }
+
             totalLive = playerSetup.TotalLives;
-            diceCount = playerSetup.DiceCount;
-            currentStamina = playerSetup.CurrentStaminaPoints;
+            
+            if (currentStamina != playerSetup.CurrentStaminaPoints)
+            {
+                var v = playerSetup.CurrentStaminaPoints - currentStamina;
+                if (currentStamina != 0)
+                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.STAMINA, v);
+                currentStamina = playerSetup.CurrentStaminaPoints;
+            }
+            
             totalStamina = playerSetup.TotalStaminaPoints;
 
             beforeAttack = attack;
@@ -62,6 +93,7 @@ namespace EquipInventory
             {
                 currentLive = totalLive;
             }
+
             PlayerSetup.Instance.CurrentLive = currentLive;
             transform.Find("Live").Find("LiveNum").GetComponent<TextMeshProUGUI>().text = currentLive + "/" + totalLive;
         }
@@ -73,6 +105,7 @@ namespace EquipInventory
             {
                 currentLive = 0;
             }
+
             PlayerSetup.Instance.CurrentLive = currentLive;
             transform.Find("Live").Find("LiveNum").GetComponent<TextMeshProUGUI>().text = currentLive + "/" + totalLive;
         }

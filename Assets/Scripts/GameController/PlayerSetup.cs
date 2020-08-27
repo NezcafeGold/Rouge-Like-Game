@@ -65,7 +65,10 @@ public class PlayerSetup : Singleton<PlayerSetup>
                 DiceCount += value;
                 break;
         }
+
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
+//        if (value != 0)
+//            Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, whatEnum, value);
     }
 
     public void DefaultAttack()

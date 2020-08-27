@@ -34,4 +34,6 @@ public static class GameEvent
     public const string ENEMY_ATTACK_TURN_BEFORE_ATTACK = "ENEMY_ATTACK_TURN_BEFORE_ATTACK";
     public const string ENEMY_ATTACK_TURN_IN_ATTACK = "ENEMY_ATTACK_TURN_IN_ATTACK";
     public const string ENEMY_ATTACK_TURN_AFTER_ATTACK = "ENEMY_ATTACK_TURN_AFTER_ATTACK";
+    public const string ANIM_PLAYER_VALUE = "ANIM_PLAYER_VALUE";
+    
 }

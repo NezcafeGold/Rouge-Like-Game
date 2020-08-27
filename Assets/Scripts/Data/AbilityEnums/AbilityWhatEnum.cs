@@ -7,5 +7,6 @@ public enum AbilitityWhatEnum
     [Tooltip("Уворот за успех")] DODGE,
 
     [Tooltip("Сжечь вражеский куб за успех")]
-    DICE
+    DICE,
+    STAMINA
 }

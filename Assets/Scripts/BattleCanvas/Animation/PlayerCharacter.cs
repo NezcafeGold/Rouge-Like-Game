@@ -4,15 +4,41 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Animator playerAnimator;
+
+
+    private void Awake()
     {
-        
+        Messenger.AddListener(GameEvent.PLAYER_ATTACK_TURN, Shoot);
+    }
+    
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.PLAYER_ATTACK_TURN, Shoot);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        playerAnimator = GetComponent<Animator>();
+    }
+
+    public void Shoot()
+    {
+        playerAnimator.SetFloat("attack", 1);
+    }
+
+    public void IdleAfterShoot()
+    {
+        playerAnimator.SetFloat("attack", 0);
+    }
+    
+    public void Idle()
+    {
+        playerAnimator.SetFloat("attack", 0);
+    }
+
+    public void DealDamageToEnemy()
+    {
+        BattleController.Instance.DealDamageToEnemy();
     }
 }

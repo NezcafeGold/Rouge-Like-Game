@@ -1,12 +1,13 @@
+using System.Collections;
 using System.Collections.Generic;
 using Singleton;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class AbilityController : Singleton<AbilityController>
 {
     [SerializeField] private GameObject PlayerAbilityPanel;
     [SerializeField] private GameObject EnemyAbilityPanel;
-
 
     private void Awake()
     {
@@ -15,7 +16,14 @@ public class AbilityController : Singleton<AbilityController>
         Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, HandleEnemyAttackTurn);
     }
 
-    private void HandleBeforeFightTurn()
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BEFORE_FIGHT, HandleBeforeFightTurn);
+        Messenger.RemoveListener(GameEvent.PLAYER_ATTACK_TURN, HandlePlayerAttackTurn);
+        Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, HandleEnemyAttackTurn);
+    }
+
+    public void HandleBeforeFightTurn()
     {
         foreach (Transform t in PlayerAbilityPanel.transform)
         {
@@ -32,9 +40,6 @@ public class AbilityController : Singleton<AbilityController>
                 HandleAbility(t.gameObject.GetComponent<Ability>());
             }
         }
-
-        if (BattleController.Instance.CURRENT_TURN == 2)
-            BattleController.Instance.NextTurn();
     }
 
     private void HandleEnemyAttackTurn()
@@ -46,9 +51,6 @@ public class AbilityController : Singleton<AbilityController>
                 HandleAbility(t.gameObject.GetComponent<Ability>());
             }
         }
-
-        if (BattleController.Instance.CURRENT_TURN == 3)
-            BattleController.Instance.NextTurn();
     }
 
     private void HandlePlayerAttackTurn()
@@ -60,9 +62,6 @@ public class AbilityController : Singleton<AbilityController>
                 HandleAbility(t.gameObject.GetComponent<Ability>());
             }
         }
-
-        if (BattleController.Instance.CURRENT_TURN == 4)
-            BattleController.Instance.NextTurn();
     }
 
     private void HandleAbility(Ability ability)

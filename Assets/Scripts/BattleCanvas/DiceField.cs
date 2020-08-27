@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class DiceField : MonoBehaviour
@@ -19,11 +21,13 @@ public class DiceField : MonoBehaviour
     void Awake()
     {
         Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
+        Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.BATTLE_START, GenerateDices);
+        Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
     }
 
     private void GenerateDices()
@@ -43,9 +47,16 @@ public class DiceField : MonoBehaviour
     {
         if (side == Side.ENEMY && isEnable)
         {
-            RollTheDices();
-            
+            StartCoroutine(RollTheDicesCourotine());
+
+            BattleController.Instance.NextTurn();
         }
+    }
+
+    private IEnumerator RollTheDicesCourotine()
+    {
+        RollTheDices();
+        yield return new WaitForSeconds(2f);
     }
 
     public void RollTheDices()
