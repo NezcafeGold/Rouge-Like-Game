@@ -4,27 +4,14 @@ using UnityEngine;
 
 public class BattleButton : MonoBehaviour
 {
-
-
     private void Start()
     {
         gameObject.SetActive(false);
     }
 
-    private void Awake()
+    public void NextTurn()
     {
-        Messenger.AddListener(GameEvent.SHOW_BATTLE_BUTTON, ShowBattleButton);
+        BattleController.Instance.NextTurn();
+        gameObject.SetActive(false);
     }
-
-    private void OnDestroy()
-    {
-        Messenger.RemoveListener(GameEvent.SHOW_BATTLE_BUTTON, ShowBattleButton);
-    }
-
-    private void ShowBattleButton()
-    {
-        gameObject.SetActive(true);
-    }
-
-
 }

@@ -5,12 +5,12 @@ using DefaultNamespace;
 [Serializable]
 public struct SctructTileTypeAmount
 {
-    public TileCard tileCard;
+    public TypeTileCardData typeTileCardData;
     public int amount;
 
-    public SctructTileTypeAmount(TileCard tileCard, int amount)
+    public SctructTileTypeAmount(TypeTileCardData typeTileCardData, int amount)
     {
-        this.tileCard = tileCard;
+        this.typeTileCardData = typeTileCardData;
         this.amount = amount;
     }
 }

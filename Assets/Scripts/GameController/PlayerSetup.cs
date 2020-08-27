@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+﻿using System.Collections.Generic;
+using DanielLochner.Assets.SimpleScrollSnap;
+using Singleton;
 using UnityEngine;
 
-public class PlayerSetup : MonoBehaviour
+public class PlayerSetup : Singleton<PlayerSetup>
 {
     [SerializeField] [Tooltip("Не более 5")]
     public List<AbilityData> Abilities;
@@ -15,75 +15,66 @@ public class PlayerSetup : MonoBehaviour
     [SerializeField] public int DiceCount;
     [SerializeField] public int CurrentStaminaPoints;
     [SerializeField] public int TotalStaminaPoints;
-
+    [SerializeField] public int Dodge;
+    [SerializeField] public GameObject scroll;
 
     private int defaultAttack;
-    private int extAttack;
-    private int extHP;
-    private int extDodge;
-    private int extDiceDecrease;
 
-    public int ExtAttack
-    {
-        get { return extAttack; }
-    }
-
-    public int ExtHp
-    {
-        get { return extHP; }
-    }
-
-    public int ExtDodge
-    {
-        get { return extDodge; }
-    }
-
-    public int ExtDiceDecrease
-    {
-        get { return extDiceDecrease; }
-    }
+    private int defaultDice;
+    private int defaultDodge;
 
     private void Start()
     {
         defaultAttack = Attack;
+        defaultDice = DiceCount;
+        defaultDodge = 0;
     }
 
-    public static PlayerSetup GetPlayerSetup()
-    {
-        return GameObject.Find("PlayerSetup").GetComponent<PlayerSetup>();
-    }
-
-    public void AddAttack(int attack)
+    public void SetAttack(int attack)
     {
         Attack = defaultAttack + attack;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
-
-    public void AddExtAttack(int attack)
+    public void SetAttackFromChosenWeapon()
     {
-        extAttack = attack;
+        int id = scroll.GetComponent<SimpleScrollSnap>().TargetPanel;
+        if (scroll.GetComponent<SimpleScrollSnap>().Panels != null)
+            SetAttack(scroll.GetComponent<SimpleScrollSnap>().Panels[id].GetComponent<SmallCardInvScr>()
+                .WeaponData.AttackWeapon);
+    }
+
+    public void ChangeValue(int value, AbilitityWhatEnum whatEnum)
+    {
+        switch (whatEnum)
+        {
+            case AbilitityWhatEnum.ATTACK:
+                Attack += value;
+                break;
+            case AbilitityWhatEnum.HEALTH:
+                CurrentLive += value;
+                if (CurrentLive > TotalLives)
+                    CurrentLive = TotalLives;
+                if (CurrentLive < 0)
+                    CurrentLive = 0;
+                break;
+            case AbilitityWhatEnum.DODGE:
+                defaultDodge += value;
+                break;
+            case AbilitityWhatEnum.DICE:
+                DiceCount += value;
+                break;
+        }
+
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
-    public void AddExtHealth(int hp)
+    public void DefaultAttack()
     {
-        extHP = hp;
+        Attack = defaultAttack;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
-    public void AddExtDodge(int dodge)
-    {
-        extDodge = dodge;
-        Messenger.Broadcast(GameEvent.UPDATE_STATS);
-    }
-
-    public void AddExtDiceDecrease(int diceDecrease)
-    {
-        extDiceDecrease = diceDecrease;
-        Messenger.Broadcast(GameEvent.UPDATE_STATS);
-    }
-    
     public void SubtractStamina(int value)
     {
         CurrentStaminaPoints -= value;
@@ -97,6 +88,4 @@ public class PlayerSetup : MonoBehaviour
         if (CurrentStaminaPoints > TotalStaminaPoints) CurrentStaminaPoints = TotalStaminaPoints;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
-
-
 }

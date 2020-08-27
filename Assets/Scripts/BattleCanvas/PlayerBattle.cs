@@ -19,7 +19,7 @@ public class PlayerBattle : MonoBehaviour
     
     private void HandleAttackTurn()
     {
-        Transform abPan = transform.Find("AbilityPanel");
+        Transform abPan = transform.Find("PlayerAbilityPanel");
         foreach (Transform ab in abPan)
         {
             ab.GetComponent<Ability>().HandleAbility();

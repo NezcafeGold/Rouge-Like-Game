@@ -7,4 +7,9 @@ public class CellSmallCardScr : MonoBehaviour
 
     public bool HasItem;
     public bool IsEquip;
+
+//    private void Awake()
+//    {
+//        DontDestroyOnLoad(transform);
+//    }
 }

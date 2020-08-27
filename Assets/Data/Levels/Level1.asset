@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d79e5da2d3bbe40ba7a4ff14afd184, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  id: 0
+  name: Level1
+  listOfTiles:
+  - typeTileCardData: {fileID: 11400000, guid: 90f37fadcacd5f445bcc02ed00714f9f, type: 2}
+    amount: 0
+  - typeTileCardData: {fileID: 11400000, guid: b8060343750218942b2a99262b085e52, type: 2}
+    amount: 24
+  enemies:
+  - {fileID: 11400000, guid: 63a04dd35db3e9b448c34a847639c3e1, type: 2}
+  - {fileID: 11400000, guid: e1594cde425f31e4a9fc40879cc611e1, type: 2}
+  - {fileID: 11400000, guid: 1789fb3a63ff89e4f88435b68097dc42, type: 2}
+  weapons:
+  - {fileID: 11400000, guid: 701192d182434c94d86293114f416dcc, type: 2}
+  - {fileID: 11400000, guid: 741f50fb06109f84a9b9463e5d019552, type: 2}
+  - {fileID: 11400000, guid: f1015d84b84bc2a4e9b878d13b46fcba, type: 2}

@@ -36,40 +36,41 @@ public class ExtPlayerNum : MonoBehaviour
 
     private void UpdateExtPlayerNum()
     {
-        if (PlayerSetup.GetPlayerSetup().ExtAttack > 0)
-            extAttack.gameObject.SetActive(true);
-        else
-            extAttack.gameObject.SetActive(false);
-
-        if (PlayerSetup.GetPlayerSetup().ExtHp > 0)
-            extHP.gameObject.SetActive(true);
-        else
-            extHP.gameObject.SetActive(false);
-
-        if (PlayerSetup.GetPlayerSetup().ExtDodge > 0)
-            extDodge.gameObject.SetActive(true);
-        else
-            extDodge.gameObject.SetActive(false);
-
-        if (PlayerSetup.GetPlayerSetup().ExtDiceDecrease > 0)
-            extDice.gameObject.SetActive(true);
-        else
-            extDice.gameObject.SetActive(false);
-
-        try
-        {
-            extAttack.Find("ExtAttackNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtAttack;
-            extHP.Find("ExtHPNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtHp;
-            extDodge.Find("ExtDodgeNum").GetComponent<TextMeshProUGUI>().text =
-                " + " + PlayerSetup.GetPlayerSetup().ExtDodge + "%";
-            extDice.Find("ExtDiceNum").GetComponent<TextMeshProUGUI>().text =
-                "" + PlayerSetup.GetPlayerSetup().ExtDiceDecrease;
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error at ExtPlayerNum " + e);
-        }
+//        PlayerSetup playerSetup = PlayerSetup.Instance;
+//        if (playerSetup.ExtAttack > 0)
+//            extAttack.gameObject.SetActive(true);
+//        else
+//            extAttack.gameObject.SetActive(false);
+//
+//        if (playerSetup.ExtHp > 0)
+//            extHP.gameObject.SetActive(true);
+//        else
+//            extHP.gameObject.SetActive(false);
+//
+//        if (playerSetup.ExtDodge > 0)
+//            extDodge.gameObject.SetActive(true);
+//        else
+//            extDodge.gameObject.SetActive(false);
+//
+//        if (playerSetup.ExtDiceDecrease > 0)
+//            extDice.gameObject.SetActive(true);
+//        else
+//            extDice.gameObject.SetActive(false);
+//
+//        try
+//        {
+//            extAttack.Find("ExtAttackNum").GetComponent<TextMeshProUGUI>().text =
+//                " + " + playerSetup.ExtAttack;
+//            extHP.Find("ExtHPNum").GetComponent<TextMeshProUGUI>().text =
+//                " + " + playerSetup.ExtHp;
+//            extDodge.Find("ExtDodgeNum").GetComponent<TextMeshProUGUI>().text =
+//                " + " + playerSetup.ExtDodge + "%";
+//            extDice.Find("ExtDiceNum").GetComponent<TextMeshProUGUI>().text =
+//                "" + playerSetup.ExtDiceDecrease;
+//        }
+//        catch (Exception e)
+//        {
+//            Debug.Log("Error at ExtPlayerNum " + e);
+//        }
     }
 }

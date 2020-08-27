@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 public class DiceField : MonoBehaviour
 {
@@ -7,6 +10,7 @@ public class DiceField : MonoBehaviour
     private int diceCount;
     private bool isEnable;
     public Side side;
+    public UnityEvent ShowBattleButton;
 
     // Start is called before the first frame update
     void Start()
@@ -16,38 +20,56 @@ public class DiceField : MonoBehaviour
 
     void Awake()
     {
-        Messenger.AddListener(GameEvent.BATTLE_ENEMY_SETUP_TURN, RollTheDiceEnemy);
         Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
+        Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener(GameEvent.BATTLE_START, GenerateDices);
+        Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
     }
 
     private void GenerateDices()
     {
         if (side == Side.PLAYER)
-            diceCount = PlayerSetup.GetPlayerSetup().DiceCount;
+            diceCount = PlayerSetup.Instance.DiceCount;
         else if (side == Side.ENEMY)
             diceCount = transform.parent.Find("EnemyNums").GetComponent<EnemyNums>().DiceAmount;
-        
+
         for (int i = 0; i < diceCount; i++)
         {
             Instantiate(dice, transform);
         }
     }
 
-    private void RollTheDiceEnemy()
+    public void RollTheDiceEnemy()
     {
-        if (side == Side.ENEMY)
-            RollTheDices();
-        BattleController.NextTurn();
+        if (side == Side.ENEMY && isEnable)
+        {
+            StartCoroutine(RollTheDicesCourotine());
+
+            BattleController.Instance.NextTurn();
+        }
+    }
+
+    private IEnumerator RollTheDicesCourotine()
+    {
+        RollTheDices();
+        yield return new WaitForSeconds(2f);
     }
 
     public void RollTheDices()
     {
         if (isEnable)
+        {
             foreach (Transform tr in transform)
             {
                 tr.GetComponent<Dice>().DiceRoll(side);
             }
 
-        isEnable = false;
+            isEnable = false;
+            ShowBattleButton.Invoke();
+        }
     }
 }

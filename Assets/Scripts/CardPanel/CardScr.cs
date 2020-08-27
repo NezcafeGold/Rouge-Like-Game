@@ -134,18 +134,14 @@ public class CardScr : MonoBehaviour
             {
                 case CardType.ENEMY:
                 {
-                    List<EnemyData> enemies = GameObject.Find("LevelController").GetComponent<LevelController>()
-                        .CurrentLevel
-                        .Enemies;
+                    List<EnemyData> enemies = LevelController.Instance.GetCurrentLevel().Enemies;
                     enemyData = enemies[Random.Range(0, enemies.Count)];
                     UpdateFaceCard(CardType.ENEMY);
                     break;
                 }
                 case CardType.WEAPON:
                 {
-                    List<WeaponData> weapons = GameObject.Find("LevelController").GetComponent<LevelController>()
-                        .CurrentLevel
-                        .Weapons;
+                    List<WeaponData> weapons = LevelController.Instance.GetCurrentLevel().Weapons;
                     weaponData = weapons[Random.Range(0, weapons.Count)];
                     UpdateFaceCard(CardType.WEAPON);
                     break;

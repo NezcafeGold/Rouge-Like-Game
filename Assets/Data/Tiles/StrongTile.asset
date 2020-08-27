@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   name: Strong
-  sprite: {fileID: 21300000, guid: 2206354dba57aa441b71e3aaeb8c321c, type: 3}
   tileCardWithType: 1
   cardList:
   - cardType: 0
@@ -23,3 +22,5 @@ MonoBehaviour:
   - cardType: 1
     cardData: {fileID: 11400000, guid: b7e7b44174e0d774a933c73cc0d3bdb6, type: 2}
     amount: 2
+  openedTile: {fileID: 21300000, guid: 2206354dba57aa441b71e3aaeb8c321c, type: 3}
+  visitedTile: {fileID: 21300000, guid: b47b93ec22b8cf84eba86f29f4dea4d7, type: 3}

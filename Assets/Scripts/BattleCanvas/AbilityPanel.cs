@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DefaultNamespace;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityPanel : MonoBehaviour
@@ -20,7 +18,7 @@ public class AbilityPanel : MonoBehaviour
     {
         if (side == Side.PLAYER)
         {
-            abilitiesData = PlayerSetup.GetPlayerSetup().Abilities;
+            abilitiesData = PlayerSetup.Instance.Abilities;
             GenerateSpellBook();
         }
     }

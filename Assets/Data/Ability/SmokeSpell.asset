@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca360f0be571467b8f013d47f55ae707, type: 3}
   m_Name: SmokeSpell
   m_EditorClassIdentifier: 
+  Id: 3
   NameAbility: "\u0414\u044B\u043C\u043E\u0432\u0430\u044F \u0437\u0430\u0432\u0435\u0441\u0430"
   DescriptionAbility: "\u041F\u0440\u0438 \u0443\u0441\u043F\u0435\u0445\u0435 \u0432\u0440\u0430\u0433
     \u043C\u043E\u0436\u0435\u0442 \u043F\u0440\u043E\u043C\u0430\u0445\u043D\u0443\u0442\u044C\u0441\u044F
     \u0441 50% \u0448\u0430\u043D\u0441\u043E\u043C"
-  AbilityEnum: 2
+  abilityWhatEnum: 2
+  AbilityWhenEnum: 0
+  AbilityDoEnum: 0
   ValueForAbility: 50
   LuckCount: 4
   CellLuckCount: 4
