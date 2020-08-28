@@ -10,11 +10,13 @@ public class PlayerCharacter : MonoBehaviour
     private void Awake()
     {
         Messenger.AddListener(GameEvent.PLAYER_ATTACK_TURN, Shoot);
+        Messenger.AddListener(GameEvent.PLAYER_ANIM_DEFEND, HandleAnimDefend);
     }
-    
+
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.PLAYER_ATTACK_TURN, Shoot);
+        Messenger.RemoveListener(GameEvent.PLAYER_ANIM_DEFEND, HandleAnimDefend);
     }
 
     private void Start()
@@ -24,21 +26,18 @@ public class PlayerCharacter : MonoBehaviour
 
     public void Shoot()
     {
-        playerAnimator.SetFloat("attack", 1);
+        playerAnimator.SetTrigger("Attack");
     }
 
-    public void IdleAfterShoot()
-    {
-        playerAnimator.SetFloat("attack", 0);
-    }
-    
-    public void Idle()
-    {
-        playerAnimator.SetFloat("attack", 0);
-    }
 
     public void DealDamageToEnemy()
     {
         BattleController.Instance.DealDamageToEnemy();
     }
+    
+    private void HandleAnimDefend()
+    {
+        playerAnimator.SetTrigger("GetDamage");
+    }
+    
 }

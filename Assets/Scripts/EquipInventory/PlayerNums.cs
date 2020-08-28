@@ -53,15 +53,16 @@ namespace EquipInventory
             }
 
             totalLive = playerSetup.TotalLives;
-            
+
             if (currentStamina != playerSetup.CurrentStaminaPoints)
             {
                 var v = playerSetup.CurrentStaminaPoints - currentStamina;
                 if (currentStamina != 0)
-                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.STAMINA, v);
+                    Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_PLAYER_VALUE, AbilitityWhatEnum.STAMINA,
+                        v);
                 currentStamina = playerSetup.CurrentStaminaPoints;
             }
-            
+
             totalStamina = playerSetup.TotalStaminaPoints;
 
             beforeAttack = attack;

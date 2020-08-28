@@ -155,5 +155,4 @@ public class Player : Singleton<Player>, IEndDragHandler, IBeginDragHandler, IDr
     public void OnDrag(PointerEventData eventData)
     {
     }
-
 }

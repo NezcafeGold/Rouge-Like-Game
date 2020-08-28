@@ -37,20 +37,14 @@ public class Ability : MonoBehaviour
     //сколько зарядов имеется (все очки / очки удачи)
     public int valueCharge;
 
-
-    public int CurrentPointsFromDices
-    {
-        get { return currentPointsFromDices; }
-        set { currentPointsFromDices = value; }
-    }
-
-    //TODO: реализовать GameEvent.BATTLE_ENEMY_TURN, вложенный класс с методом который вызывает метод по енам 
+    private Animator anim;
 
     void Awake()
     {
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.AddListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
         Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, ApplyStaminaPoints);
+        Messenger.AddListener(GameEvent.PLAYER_SETUP_TURN, ResetAbilityToDefaultValue);
     }
 
     private void OnDestroy()
@@ -58,6 +52,7 @@ public class Ability : MonoBehaviour
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_PLAYER, AddDiceSideForPlayer);
         Messenger.RemoveListener<ColorEnum>(GameEvent.ADD_DICE_SIDE_FOR_ENEMY, AddDiceSideForEnemy);
         Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, ApplyStaminaPoints);
+        Messenger.RemoveListener(GameEvent.PLAYER_SETUP_TURN, ResetAbilityToDefaultValue);
     }
 
     private void Start()
@@ -71,7 +66,18 @@ public class Ability : MonoBehaviour
         isEnableToAddPoints = false;
         resetButton = transform.Find("Reset").gameObject;
         resetButton.SetActive(false);
+        anim = GetComponent<Animator>();
     }
+
+    private void ResetAbilityToDefaultValue()
+    {
+        if (side == Side.PLAYER)
+        {
+            isEnableToAddPoints = true;
+            isEnableToClick = true;
+        }
+    }
+
 
     private void ApplyStaminaPoints()
     {
@@ -217,5 +223,17 @@ public class Ability : MonoBehaviour
         {
             gameObject.GetComponent<Ability>().transform.Find("Luck").gameObject.SetActive(false);
         }
+    }
+
+    public void Activate()
+    {
+        anim.SetTrigger("Activate");
+    }
+
+    private void ResetCharge()
+    {
+        pointsOnChargePanel = currentPointsFromDices - valueCharge * abilityData.LuckCount;
+        currentPointsFromDices = 0;
+        UpdatePointsVisual(true);
     }
 }

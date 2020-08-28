@@ -22,12 +22,26 @@ public class DiceField : MonoBehaviour
     {
         Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
         Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
+        Messenger.AddListener(GameEvent.PLAYER_SETUP_TURN, ReGenerateDicesOnPlayerSetupTurn);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.BATTLE_START, GenerateDices);
         Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
+        Messenger.RemoveListener(GameEvent.PLAYER_SETUP_TURN, ReGenerateDicesOnPlayerSetupTurn);
+    }
+
+    private void ReGenerateDicesOnPlayerSetupTurn()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        GenerateDices();
+        if (side == Side.PLAYER)
+            isEnable = true;
     }
 
     private void GenerateDices()
@@ -45,11 +59,9 @@ public class DiceField : MonoBehaviour
 
     public void RollTheDiceEnemy()
     {
-        if (side == Side.ENEMY && isEnable)
+        if (side == Side.ENEMY)
         {
             StartCoroutine(RollTheDicesCourotine());
-
-            BattleController.Instance.NextTurn();
         }
     }
 

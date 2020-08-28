@@ -7,18 +7,15 @@ using UnityEngine.Events;
 
 public class BattleController : Singleton<BattleController>
 {
-    public const int PLAYER_SETUP_TURN = 0;
-    public const int ENEMY_SETUP_TURN = 1;
-    public const int BEFORE_FIGHT = 2;
-    public const int PLAYER_ATTACK_TURN = 3;
-    public const int ENEMY_ATTACK_TURN = 4;
+    [HideInInspector] public const int PLAYER_SETUP_TURN = 0;
+    [HideInInspector] public const int ENEMY_SETUP_TURN = 1;
+    [HideInInspector] public const int BEFORE_FIGHT = 2;
+    [HideInInspector] public const int PLAYER_ATTACK_TURN = 3;
+    [HideInInspector] public const int ENEMY_ATTACK_TURN = 4;
+    [HideInInspector] public const int END_BATTLE = 5;
+    [HideInInspector] public int CURRENT_TURN;
 
-    public UnityEvent RollDiceForEnemy, BeforeFight;
-
-    public int CURRENT_TURN;
-
-
-    public int[] TURNS =
+    [HideInInspector] public int[] TURNS =
     {
         PLAYER_SETUP_TURN, ENEMY_SETUP_TURN, BEFORE_FIGHT, PLAYER_ATTACK_TURN, ENEMY_ATTACK_TURN
     };
@@ -32,7 +29,13 @@ public class BattleController : Singleton<BattleController>
 
     public void NextTurn()
     {
-        if (CURRENT_TURN == TURNS.Length)
+        if (CURRENT_TURN == END_BATTLE)
+        {
+            Messenger.Broadcast(GameEvent.END_BATTLE);
+            return;
+        }
+
+        if (CURRENT_TURN == ENEMY_ATTACK_TURN)
             CURRENT_TURN = PLAYER_SETUP_TURN;
         else
             CURRENT_TURN++;
@@ -42,34 +45,9 @@ public class BattleController : Singleton<BattleController>
 
     public void HandleCurrentTurn()
     {
-//        switch (TURNS[CURRENT_TURN])
-//        {
-//            case PLAYER_SETUP_TURN:
-//            {
-//                Messenger.Broadcast(GameEvent.PLAYER_SETUP_TURN);
-//                Debug.Log("PLAYER_SETUP_TURN");
-//                break;
-//            }
-//            case ENEMY_SETUP_TURN:
-//                Messenger.Broadcast(GameEvent.ENEMY_SETUP_TURN);
-//                break;
-//
-//            case BEFORE_FIGHT:
-//                Messenger.Broadcast(GameEvent.BEFORE_FIGHT);
-//                break;
-//
-//            case PLAYER_ATTACK_TURN:
-//                Messenger.Broadcast(GameEvent.PLAYER_ATTACK_TURN);
-//                break;
-//
-////            case ENEMY_ATTACK_TURN:
-////                Messenger.Broadcast(GameEvent.ENEMY_ATTACK_TURN);
-////                break;
-//        }
-
-
         if (TURNS[CURRENT_TURN] == PLAYER_SETUP_TURN)
         {
+            PlayerSetup.Instance.DefaultValues();
             Messenger.Broadcast(GameEvent.PLAYER_SETUP_TURN);
             Debug.Log("PLAYER_SETUP_TURN");
         }
@@ -77,7 +55,7 @@ public class BattleController : Singleton<BattleController>
         {
             Messenger.Broadcast(GameEvent.ENEMY_SETUP_TURN);
             Debug.Log("ENEMY_SETUP_TURN");
-            StartCoroutine(WaitForNextTurn(2f));
+            StartCoroutine(WaitForNextTurn(2.5f));
         }
         else if (TURNS[CURRENT_TURN] == BEFORE_FIGHT)
         {
@@ -95,12 +73,15 @@ public class BattleController : Singleton<BattleController>
         {
             Messenger.Broadcast(GameEvent.ENEMY_ATTACK_TURN);
             Debug.Log("ENEMY_ATTACK_TURN");
+            StartCoroutine(WaitForNextTurn(3.5f));
         }
     }
+
 
     private IEnumerator WaitForNextTurn(float time)
     {
         yield return new WaitForSeconds(time);
+
         NextTurn();
     }
 
@@ -108,5 +89,16 @@ public class BattleController : Singleton<BattleController>
     {
         EnemySetup.Instance.ChangeValue(-PlayerSetup.Instance.Attack, AbilitityWhatEnum.HEALTH);
         Messenger.Broadcast(GameEvent.ENEMY_ANIM_DEFEND);
+    }
+
+    public void DealDamageToPlayer()
+    {
+        PlayerSetup.Instance.ChangeValue(-EnemySetup.Instance.Attack, AbilitityWhatEnum.HEALTH);
+        Messenger.Broadcast(GameEvent.PLAYER_ANIM_DEFEND);
+    }
+
+    public void EndOfBattle()
+    {
+        CURRENT_TURN = END_BATTLE;
     }
 }

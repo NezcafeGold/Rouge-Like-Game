@@ -82,6 +82,9 @@ public class CardScr : MonoBehaviour
         Messenger.RemoveListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
         Messenger.RemoveListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
         Messenger.AddListener(GameEvent.ALLOW_TO_ROTATE, AllowToRotate);
+        
+        
+        
     }
 
     private void BlockToRotate()

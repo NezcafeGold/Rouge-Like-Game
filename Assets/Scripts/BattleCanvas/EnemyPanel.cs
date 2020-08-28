@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ public class EnemyPanel : MonoBehaviour
     {
         Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
         Messenger.AddListener(GameEvent.ENEMY_ANIM_DEFEND, AnimDefend);
+        Messenger.AddListener(GameEvent.ENEMY_ATTACK_TURN, AnimAttack);
     }
 
     private void OnDestroy()
@@ -32,9 +34,19 @@ public class EnemyPanel : MonoBehaviour
         go.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 0.5f);
         go.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 0.5f);
     }
-    
+
     private void AnimDefend()
     {
         anim.SetTrigger("GetDamage");
+    }
+
+    private void AnimAttack()
+    {
+        anim.SetTrigger("Attack");
+    }
+    
+    public void DealDamageToPlayer()
+    {
+        BattleController.Instance.DealDamageToPlayer();
     }
 }

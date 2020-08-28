@@ -65,7 +65,10 @@ public class PlayerSetup : Singleton<PlayerSetup>
                 DiceCount += value;
                 break;
         }
-
+        if (CurrentLive <= 0)
+        {
+            BattleController.Instance.EndOfBattle();
+        }
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
@@ -87,5 +90,11 @@ public class PlayerSetup : Singleton<PlayerSetup>
         CurrentStaminaPoints += value;
         if (CurrentStaminaPoints > TotalStaminaPoints) CurrentStaminaPoints = TotalStaminaPoints;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
+    }
+
+    public void DefaultValues()
+    {
+        Attack = defaultAttack;
+        Dodge = 0;
     }
 }

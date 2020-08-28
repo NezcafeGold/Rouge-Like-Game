@@ -35,7 +35,7 @@ public class EnemyNums : MonoBehaviour, INums
         {
             var v = enemySetup.CurrentLive - HP;
             if (HP != 0)
-                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.ATTACK,
+                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.HEALTH,
                     v);
             HP = enemySetup.CurrentLive;
         }
@@ -44,7 +44,7 @@ public class EnemyNums : MonoBehaviour, INums
         {
             var v = enemySetup.DiceCount - DiceAmount;
             if (DiceAmount != 0)
-                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.ATTACK,
+                Messenger.Broadcast<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, AbilitityWhatEnum.DICE,
                     v);
             DiceAmount = enemySetup.DiceCount;
         }

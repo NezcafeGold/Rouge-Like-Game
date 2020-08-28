@@ -40,12 +40,10 @@ public class EnemySetup : Singleton<EnemySetup>
                 DiceCount += value;
                 break;
         }
-        Messenger.Broadcast(GameEvent.UPDATE_ENEMY_STATS);
-    }
-
-    public void SetDamage(int damage)
-    {
-        CurrentLive -= damage;
+        if (CurrentLive <= 0)
+        {
+            BattleController.Instance.EndOfBattle();
+        }
         Messenger.Broadcast(GameEvent.UPDATE_ENEMY_STATS);
     }
 }

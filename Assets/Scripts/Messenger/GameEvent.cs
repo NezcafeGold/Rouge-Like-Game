@@ -1,5 +1,7 @@
 public static class GameEvent
 {
+
+
     public const string UPDATE_ENEMY_STATS = "UPDATE_ENEMY_STATS";
     public const string ENEMY_ATTACK_TURN = "ENEMY_ATTACK_TURN";
     public const string PLAYER_ATTACK_TURN = "PLAYER_ATTACK_TURN";
@@ -8,6 +10,7 @@ public static class GameEvent
     public const string ADD_ITEMS_TO_BATTLE = "ADD_ITEMS_TO_BATTLE";
     public const string ADD_DICE_SIDE_FOR_ENEMY = "ADD_DICE_SIDE_FOR_ENEMY";
     public const string ADD_ENEMY_TO_BATTLE = "ADD_ENEMY_TO_BATTLE";
+    public const string END_BATTLE = "END_BATTLE";
 
     public const string ADD_DICE_SIDE_FOR_PLAYER = "ADD_DICE_SIDE_FOR_PLAYER";
     public const string UPDATE_STATS = "UPDATE_STATS";
@@ -30,4 +33,5 @@ public static class GameEvent
     public const string ANIM_PLAYER_VALUE = "ANIM_PLAYER_VALUE";
     public const string ANIM_ENEMY_VALUE = "ANIM_ENEMY_VALUE";
     public const string ENEMY_ANIM_DEFEND = "ENEMY_ANIM_DEFEND";
+    public const string PLAYER_ANIM_DEFEND = "PLAYER_ANIM_DEFEND";
 }

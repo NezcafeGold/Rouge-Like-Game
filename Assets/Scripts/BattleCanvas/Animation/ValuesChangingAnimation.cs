@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Singleton;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ValuesChangingAnimation : MonoBehaviour
 {
-    [SerializeField] AbilitityWhatEnum whatEnum;
+    [SerializeField] private AbilitityWhatEnum whatEnum;
     private Animator animator;
     private Text text;
 
@@ -30,9 +31,9 @@ public class ValuesChangingAnimation : MonoBehaviour
         Messenger.RemoveListener<AbilitityWhatEnum, int>(GameEvent.ANIM_ENEMY_VALUE, HandleAnimEnemyValue);
     }
 
-    private void HandleAnimPlayerValue(AbilitityWhatEnum whatEnum, int value)
+    public void HandleAnimPlayerValue(AbilitityWhatEnum whatEnums, int value)
     {
-        if (transform.parent.name == "PlayerSide" && this.whatEnum == whatEnum)
+        if (transform.parent.name == "PlayerSide" && whatEnum == whatEnums)
         {
             if (value < 0)
                 text.color = Color.red;
@@ -42,9 +43,9 @@ public class ValuesChangingAnimation : MonoBehaviour
         }
     }
     
-    private void HandleAnimEnemyValue(AbilitityWhatEnum whatEnum, int value)
+    public void HandleAnimEnemyValue(AbilitityWhatEnum whatEnums, int value)
     {
-        if (transform.parent.name == "EnemySide" && this.whatEnum == whatEnum)
+        if (transform.parent.name == "EnemySide" && whatEnum == whatEnums)
         {
             if (value < 0)
                 text.color = Color.red;
