@@ -9,7 +9,6 @@ public class Player : Singleton<Player>, IEndDragHandler, IBeginDragHandler, IDr
 {
     [SerializeField] private GameObject gameField;
     [SerializeField] private Animator playerAnimator;
-    private bool dragged;
     private bool needReset;
 
 
@@ -31,8 +30,6 @@ public class Player : Singleton<Player>, IEndDragHandler, IBeginDragHandler, IDr
         {
             needReset = false;
         }
-
-        dragged = false;
     }
 
     private void MoveToDirection(DraggedDirection direction)

@@ -19,6 +19,7 @@ public class PlayerSetup : Singleton<PlayerSetup>
     [SerializeField] public GameObject scroll;
 
     private int defaultAttack;
+    private int attackFromWeapon;
 
     private int defaultDice;
     private int defaultDodge;
@@ -30,9 +31,9 @@ public class PlayerSetup : Singleton<PlayerSetup>
         defaultDodge = 0;
     }
 
-    public void SetAttack(int attack)
+    public void UpdateAttack()
     {
-        Attack = defaultAttack + attack;
+        Attack = defaultAttack + attackFromWeapon;
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
@@ -40,8 +41,11 @@ public class PlayerSetup : Singleton<PlayerSetup>
     {
         int id = scroll.GetComponent<SimpleScrollSnap>().TargetPanel;
         if (scroll.GetComponent<SimpleScrollSnap>().Panels != null)
-            SetAttack(scroll.GetComponent<SimpleScrollSnap>().Panels[id].GetComponent<SmallCardInvScr>()
-                .WeaponData.AttackWeapon);
+        {
+            attackFromWeapon = scroll.GetComponent<SimpleScrollSnap>().Panels[id].GetComponent<SmallCardInvScr>()
+                .WeaponData.AttackWeapon;
+            UpdateAttack();
+        }
     }
 
     public void ChangeValue(int value, AbilitityWhatEnum whatEnum)
@@ -65,10 +69,12 @@ public class PlayerSetup : Singleton<PlayerSetup>
                 DiceCount += value;
                 break;
         }
+
         if (CurrentLive <= 0)
         {
             BattleController.Instance.EndOfBattle();
         }
+
         Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 
@@ -96,5 +102,6 @@ public class PlayerSetup : Singleton<PlayerSetup>
     {
         Attack = defaultAttack;
         Dodge = 0;
+        Messenger.Broadcast(GameEvent.UPDATE_STATS);
     }
 }

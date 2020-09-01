@@ -14,8 +14,7 @@ public class EquipScr : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-            GenerateCardPlaces(); 
-    
+        GenerateCardPlaces();
     }
 
     private void Awake()

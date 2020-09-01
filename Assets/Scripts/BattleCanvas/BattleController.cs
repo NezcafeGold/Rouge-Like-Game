@@ -32,6 +32,7 @@ public class BattleController : Singleton<BattleController>
         if (CURRENT_TURN == END_BATTLE)
         {
             Messenger.Broadcast(GameEvent.END_BATTLE);
+            CURRENT_TURN = PLAYER_SETUP_TURN;
             return;
         }
 

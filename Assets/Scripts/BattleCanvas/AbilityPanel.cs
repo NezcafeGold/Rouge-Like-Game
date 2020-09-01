@@ -8,9 +8,16 @@ public class AbilityPanel : MonoBehaviour
     private List<AbilityData> abilitiesData;
     public Side side;
 
-    void Awake()
+    private void Awake()
     {
         Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, GenerateSpellBookForEnemy);
+        Messenger.AddListener(GameEvent.END_BATTLE_DESTROY, DestroyEnemySpells);
+    }
+
+    private void OnDestroy()
+    {
+        Messenger.RemoveListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, GenerateSpellBookForEnemy);
+        Messenger.RemoveListener(GameEvent.END_BATTLE_DESTROY, DestroyEnemySpells);
     }
 
 
@@ -40,6 +47,17 @@ public class AbilityPanel : MonoBehaviour
         {
             abilitiesData = go.GetComponent<CardScr>().EnemyData.AbilityData;
             GenerateSpellBook();
+        }
+    }
+
+    private void DestroyEnemySpells()
+    {
+        if (side == Side.ENEMY)
+        {
+            foreach (Transform t in transform)
+            {
+                Destroy(t.gameObject);
+            }
         }
     }
 }

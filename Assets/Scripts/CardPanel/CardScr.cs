@@ -194,7 +194,7 @@ public class CardScr : MonoBehaviour
                     break;
                 case CardType.ENEMY:
                     Messenger.Broadcast<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, gameObject);
-                    Messenger.Broadcast(GameEvent.BATTLE_START);
+                    Messenger.Broadcast(GameEvent.BATTLE_START_ANIM);
                     break;
             }
         }

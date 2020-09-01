@@ -1,15 +1,15 @@
 public static class GameEvent
 {
-
-
     public const string UPDATE_ENEMY_STATS = "UPDATE_ENEMY_STATS";
     public const string ENEMY_ATTACK_TURN = "ENEMY_ATTACK_TURN";
     public const string PLAYER_ATTACK_TURN = "PLAYER_ATTACK_TURN";
 
+    public const string BATTLE_START_ANIM = "BATTLE_START_ANIM";
     public const string BATTLE_START = "BATTLE_START";
     public const string ADD_ITEMS_TO_BATTLE = "ADD_ITEMS_TO_BATTLE";
     public const string ADD_DICE_SIDE_FOR_ENEMY = "ADD_DICE_SIDE_FOR_ENEMY";
     public const string ADD_ENEMY_TO_BATTLE = "ADD_ENEMY_TO_BATTLE";
+    public const string END_BATTLE_DESTROY = "END_BATTLE_DESTROY";
     public const string END_BATTLE = "END_BATTLE";
 
     public const string ADD_DICE_SIDE_FOR_PLAYER = "ADD_DICE_SIDE_FOR_PLAYER";

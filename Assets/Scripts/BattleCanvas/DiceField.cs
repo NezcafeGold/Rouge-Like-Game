@@ -23,13 +23,16 @@ public class DiceField : MonoBehaviour
         Messenger.AddListener(GameEvent.BATTLE_START, GenerateDices);
         Messenger.AddListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
         Messenger.AddListener(GameEvent.PLAYER_SETUP_TURN, ReGenerateDicesOnPlayerSetupTurn);
+        Messenger.AddListener(GameEvent.END_BATTLE_DESTROY, DestroyAllChild);
     }
+
 
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.BATTLE_START, GenerateDices);
         Messenger.RemoveListener(GameEvent.ENEMY_SETUP_TURN, RollTheDiceEnemy);
         Messenger.RemoveListener(GameEvent.PLAYER_SETUP_TURN, ReGenerateDicesOnPlayerSetupTurn);
+        Messenger.RemoveListener(GameEvent.END_BATTLE_DESTROY, DestroyAllChild);
     }
 
     private void ReGenerateDicesOnPlayerSetupTurn()
@@ -83,5 +86,14 @@ public class DiceField : MonoBehaviour
             isEnable = false;
             ShowBattleButton.Invoke();
         }
+    }
+
+    private void DestroyAllChild()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        isEnable = true;
     }
 }

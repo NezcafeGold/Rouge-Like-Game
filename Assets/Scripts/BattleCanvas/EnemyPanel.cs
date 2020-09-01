@@ -19,12 +19,15 @@ public class EnemyPanel : MonoBehaviour
         Messenger.AddListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
         Messenger.AddListener(GameEvent.ENEMY_ANIM_DEFEND, AnimDefend);
         Messenger.AddListener(GameEvent.ENEMY_ATTACK_TURN, AnimAttack);
+        Messenger.AddListener(GameEvent.END_BATTLE_DESTROY, DestroyEnemyCard);
     }
 
     private void OnDestroy()
     {
         Messenger.RemoveListener<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, AddEnemyCard);
         Messenger.RemoveListener(GameEvent.ENEMY_ANIM_DEFEND, AnimDefend);
+        Messenger.RemoveListener(GameEvent.ENEMY_ATTACK_TURN, AnimAttack);
+        Messenger.RemoveListener(GameEvent.END_BATTLE_DESTROY, DestroyEnemyCard);
     }
 
     private void AddEnemyCard(GameObject go)
@@ -48,5 +51,10 @@ public class EnemyPanel : MonoBehaviour
     public void DealDamageToPlayer()
     {
         BattleController.Instance.DealDamageToPlayer();
+    }
+    
+    private void DestroyEnemyCard()
+    {
+        Destroy(transform.GetChild(0).gameObject);
     }
 }
