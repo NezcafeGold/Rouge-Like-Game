@@ -10,6 +10,7 @@ public class LevelData : ScriptableObject
     [SerializeField] private List<SctructTileTypeAmount> listOfTiles;
     [SerializeField] private List<EnemyData> enemies;
     [SerializeField] private List<WeaponData> weapons;
+    [SerializeField] private List<QuestData> quests;
 
     public List<SctructTileTypeAmount> ListOfTiles
     {
@@ -39,5 +40,11 @@ public class LevelData : ScriptableObject
     {
         get { return weapons; }
         set { weapons = value; }
+    }
+
+    public List<QuestData> Quests
+    {
+        get => quests;
+        set => quests = value;
     }
 }

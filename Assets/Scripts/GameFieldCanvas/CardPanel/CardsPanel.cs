@@ -22,7 +22,7 @@ public class CardsPanel : MonoBehaviour
         Messenger.AddListener(GameEvent.CLOSE_CARDS_PANEL, CloseCardsPanel);
     }
 
-    //Показ карт на панели, информация берется из gridCell. Если тип бо
+    //Показ карт на панели, информация берется из gridCell
     private void ShowCardsFromTile(TileCell tileCell)
     {
         if (!tileCell.TileСellValues.IsVisited)

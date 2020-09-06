@@ -24,6 +24,7 @@ public class CardScr : MonoBehaviour
     private CardType cardType;
     private EnemyData enemyData;
     private WeaponData weaponData;
+    private QuestData questData;
 
 
     public Sprite FaceOfCard
@@ -148,6 +149,13 @@ public class CardScr : MonoBehaviour
                     weaponData = weapons[Random.Range(0, weapons.Count)];
                     UpdateFaceCard(CardType.WEAPON);
                     break;
+                }            
+                case CardType.QUEST:
+                {
+                    List<QuestData> quests = LevelController.Instance.GetCurrentLevel().Quests;
+                    questData = quests[Random.Range(0, quests.Count)];
+                    UpdateFaceCard(CardType.QUEST);
+                    break;
                 }
             }
         }
@@ -180,6 +188,13 @@ public class CardScr : MonoBehaviour
                 description.GetComponentInChildren<TextMeshProUGUI>().text = weaponData.Description;
                 break;
             }
+            case CardType.QUEST:
+            {
+                faceCard.GetComponent<Image>().sprite = questData.SpriteQuest;
+                other.Find("TextName").GetComponent<TextMeshProUGUI>().text = questData.QuestName;
+                other.Find("TextRightAngle").GetComponent<TextMeshProUGUI>().text = "qst";
+                break;
+            }
         }
     }
 
@@ -195,6 +210,9 @@ public class CardScr : MonoBehaviour
                 case CardType.ENEMY:
                     Messenger.Broadcast<GameObject>(GameEvent.ADD_ENEMY_TO_BATTLE, gameObject);
                     Messenger.Broadcast(GameEvent.BATTLE_START_ANIM);
+                    break;
+                case CardType.QUEST:
+                    Messenger.Broadcast<QuestData>(GameEvent.HANDLE_QUEST, questData);
                     break;
             }
         }

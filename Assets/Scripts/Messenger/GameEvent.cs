@@ -1,5 +1,6 @@
 public static class GameEvent
 {
+    public const string HANDLE_QUEST = "HANDLE_QUEST";
     public const string UPDATE_ENEMY_STATS = "UPDATE_ENEMY_STATS";
     public const string ENEMY_ATTACK_TURN = "ENEMY_ATTACK_TURN";
     public const string PLAYER_ATTACK_TURN = "PLAYER_ATTACK_TURN";

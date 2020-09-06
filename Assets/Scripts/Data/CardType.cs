@@ -4,5 +4,6 @@ namespace DefaultNamespace
     {
         ENEMY,
         WEAPON,
+        QUEST
     }
 }
