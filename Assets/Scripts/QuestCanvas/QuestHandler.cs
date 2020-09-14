@@ -1,6 +1,8 @@
-﻿using LitJson;
+﻿using System;
+using LitJson;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class QuestHandler : MonoBehaviour
 {
@@ -50,7 +52,9 @@ public class QuestHandler : MonoBehaviour
     private void LoadJsonQuest()
     {
         string path = currentQuest.PathToJSON;
-        TextAsset jsonTextFile = Resources.Load<TextAsset>(path);
+        string[] pathA = path.Split('\\');
+        TextAsset jsonTextFile =
+            Resources.Load<TextAsset>(pathA[0] + "\\" + LocalizationManager.CurrentLanguage + "\\" + pathA[1]);
         quest = JsonMapper.ToObject<Quest>(jsonTextFile.text);
         Debug.Log("Quest Loaded!");
     }
@@ -63,18 +67,46 @@ public class QuestHandler : MonoBehaviour
             {
                 if (qp.type == "Quest")
                 {
-                    quest.currentQuestPart = qp;
-                    titleGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = qp.title;
-                    questGO.GetComponent<TextMeshProUGUI>().text = qp.text;
-                    for (int i = 0; i < qp.choices.Length; i++)
-                    {
-                        answersGO[i].SetActive(true);
-                        answersGO[i].transform.Find("Text").GetComponent<TextMeshProUGUI>().text =
-                            FindQuestPartById(qp.choices[i]).title;
-                    }
+                    LoadQuestForm(qp);
                     break;
                 }
             }
+        }
+    }
+
+    private void LoadQuestForm(QuestPart qp)
+    {
+        InactiveAllAnswers();
+        quest.currentQuestPart = qp;
+        titleGO.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = qp.title;
+        questGO.GetComponent<TextMeshProUGUI>().text = qp.text;
+        if (qp.next == null && qp.choices != null)
+        {
+            for (int i = 0; i < qp.choices.Length; i++)
+            {
+                answersGO[i].SetActive(true);
+                answersGO[i].transform.Find("Text").GetComponent<TextMeshProUGUI>().text =
+                    FindQuestPartById(qp.choices[i]).title;
+            }
+        }
+        else
+        {
+            answersGO[0].SetActive(true);
+            answersGO[0].transform.Find("Text").GetComponent<TextMeshProUGUI>().text = qp.next;
+        }
+
+        if (qp.choices == null)
+        {
+            answersGO[0].SetActive(true);
+            answersGO[0].transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Выход";
+        }
+    }
+
+    private void InactiveAllAnswers()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            answersGO[i].SetActive(false);
         }
     }
 
@@ -89,6 +121,53 @@ public class QuestHandler : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void LoadAnswerByIdArray(int id)
+    {
+        if (quest.currentQuestPart.choices == null)
+        {
+            CloseQuest();
+            return;
+        }
+
+        string idQP = quest.currentQuestPart.choices[id];
+        QuestPart questPart = FindQuestPartById(idQP);
+        if (questPart.type == "Check")
+        {
+            LoadCheckAnswer(questPart);
+        }
+        else
+        {
+            InactiveAllAnswers();
+            LoadQuestForm(questPart);
+        }
+    }
+
+    private void CloseQuest()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void LoadCheckAnswer(QuestPart questPart)
+    {
+        string idBranch = "";
+        if (questPart.variable.StartsWith("random"))
+        {
+            string[] qpsplt = questPart.variable.Split('_');
+            int value = Int16.Parse(qpsplt[1]);
+            int randomV = Random.Range(0, 100);
+            if (randomV >= value)
+            {
+                idBranch = questPart.branches[0];
+            }
+            else
+            {
+                idBranch = questPart.branches[1];
+            }
+
+            LoadQuestForm(FindQuestPartById(idBranch));
+        }
     }
 
     public class Quest
@@ -107,5 +186,6 @@ public class QuestHandler : MonoBehaviour
         public string variable; //var_int // если больше инт - true branches[0]
         public string[] branches;
         public string next;
+        public string[] reward;
     }
 }

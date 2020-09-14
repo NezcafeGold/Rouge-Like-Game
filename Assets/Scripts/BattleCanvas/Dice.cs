@@ -54,7 +54,6 @@ public class Dice : MonoBehaviour
         }
 
         finalSide = randomDiceSide + 1;
-        Debug.Log(finalSide);
 
         ColorEnum colorEnum = ColorEnum.NONE;
         switch (finalSide)

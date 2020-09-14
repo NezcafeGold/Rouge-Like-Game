@@ -26,6 +26,11 @@ public class GameController : Singleton<GameController>
         ReRollRandom();
     }
 
+    private void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
     public TileCellValues[,] TileCellValuesArray
     {
         get { return tileCellValuesArray; }
@@ -63,7 +68,7 @@ public class GameController : Singleton<GameController>
                 }
             }
         }
-        Debug.Log("");
+
     }
 
     private void SetRandomPlayer()
@@ -72,6 +77,6 @@ public class GameController : Singleton<GameController>
         var x = Random.Range(0, SIDE_SIZE);
         var y = Random.Range(0, SIDE_SIZE);
         tileCellValuesArray[x, y].PlayerIsHere = true;
-        Debug.Log("Player on "+x+"/"+y);
+
     }
 }

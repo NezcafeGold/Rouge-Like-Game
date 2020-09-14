@@ -1,0 +1,15 @@
+{
+  "ru_RU": {
+    "name": "Усилитель урона",
+    "description": "Усиливает ваше оружие на 1 за каждый успех"
+  },
+  "en_US": {
+  },
+  "valueForAbility": 1,
+  "luckCount": 2,
+  "cellLuckCount": 8,
+  "abilityWhenEnum": "BEFORE_FIGHT",
+  "abilityDoEnum": "TO_MYSELF",
+  "abilityWhatEnum": "ATTACK",
+  "color" : "RED"
+}

@@ -17,7 +17,6 @@ public class CardScr : MonoBehaviour
     [SerializeField] private GameObject description;
 
     private Sprite faceOfCard;
-
     private bool isRotatable;
     private bool isChosenCard;
 
@@ -161,7 +160,7 @@ public class CardScr : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log(e);
+
         }
     }
 

@@ -95,7 +95,7 @@ public class Ability : MonoBehaviour
     public void AddPointsFromStamina()
     {
         if (isEnableToAddPoints && PlayerSetup.Instance.CurrentStaminaPoints > 0 &&
-            freePointsFromStamina < abilityData.CellLuckCount - currentPointsFromDices && isEnableToClick &&
+            freePointsFromStamina < abilityData.Data.CellLuckCount - currentPointsFromDices && isEnableToClick &&
             side == Side.PLAYER)
         {
             PlayerSetup.Instance.SubtractStamina(1);
@@ -121,7 +121,7 @@ public class Ability : MonoBehaviour
         if (side == Side.PLAYER)
         {
             isEnableToAddPoints = true;
-            if (abilityData.Color == colorEnum)
+            if (abilityData.Data.Color == colorEnum)
             {
                 currentPointsFromDices++;
                 pointsOnChargePanel++;
@@ -135,7 +135,7 @@ public class Ability : MonoBehaviour
         if (side == Side.ENEMY)
         {
             isEnableToAddPoints = true;
-            if (abilityData.Color == colorEnum)
+            if (abilityData.Data.Color == colorEnum)
             {
                 currentPointsFromDices++;
                 pointsOnChargePanel++;
@@ -169,18 +169,18 @@ public class Ability : MonoBehaviour
     {
         abilityData = abd;
         Ability ab = gameObject.GetComponent<Ability>();
-        ab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = abd.NameAbility;
-        ab.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = abd.DescriptionAbility;
-        ab.transform.Find("LuckCount").GetComponent<TextMeshProUGUI>().text = abd.LuckCount.ToString();
-        ab.transform.Find("Border").GetComponent<Image>().color = GetColor(abilityData.Color);
+        ab.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = abd.Data.Name;
+        ab.transform.Find("Description").GetComponent<TextMeshProUGUI>().text = abd.Data.Description;
+        ab.transform.Find("LuckCount").GetComponent<TextMeshProUGUI>().text = abd.Data.LuckCount.ToString();
+        ab.transform.Find("Border").GetComponent<Image>().color = GetColor(abilityData.Data.Color);
 
 
-        ab.transform.Find("Luck").GetComponent<Image>().color = GetColor(abilityData.Color);
+        ab.transform.Find("Luck").GetComponent<Image>().color = GetColor(abilityData.Data.Color);
         ab.transform.Find("Luck").gameObject.SetActive(false);
 
         var chargePanel = ab.transform.Find("ChargePanel");
-        pointsForLuck = abd.LuckCount;
-        for (int i = 0; i < abd.CellLuckCount; i++)
+        pointsForLuck = abd.Data.LuckCount;
+        for (int i = 0; i < abd.Data.CellLuckCount; i++)
         {
             Instantiate(chargePoint, chargePanel);
         }
@@ -211,8 +211,8 @@ public class Ability : MonoBehaviour
 
     public void HandleAbility()
     {
-        valueCharge = (pointsOnChargePanel + freePointsFromStamina) / abilityData.LuckCount;
-        ValueAb = valueCharge * abilityData.ValueForAbility;
+        valueCharge = (pointsOnChargePanel + freePointsFromStamina) / abilityData.Data.LuckCount;
+        ValueAb = valueCharge * abilityData.Data.ValueForAbility;
         if (valueCharge > 0)
         {
             gameObject.GetComponent<Ability>().transform.Find("Luck").gameObject.SetActive(true);
@@ -232,7 +232,7 @@ public class Ability : MonoBehaviour
 
     private void ResetCharge()
     {
-        pointsOnChargePanel = currentPointsFromDices - valueCharge * abilityData.LuckCount;
+        pointsOnChargePanel = currentPointsFromDices - valueCharge * abilityData.Data.LuckCount;
         currentPointsFromDices = 0;
         UpdatePointsVisual(true);
     }

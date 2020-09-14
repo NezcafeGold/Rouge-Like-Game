@@ -20,6 +20,7 @@ public class SpellBook : MonoBehaviour
     {
         foreach (var ab in abilitiesData)
         {
+            ab.Init();
             var obj = Instantiate(abilityPrefab, transform);
             obj.GetComponent<Ability>().SetData(ab);
         }
