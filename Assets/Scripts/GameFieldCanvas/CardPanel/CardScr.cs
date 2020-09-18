@@ -81,10 +81,7 @@ public class CardScr : MonoBehaviour
         Messenger.RemoveListener(GameEvent.CHANGE_CARD_SHIRT, ChangeCardShirt);
         Messenger.RemoveListener(GameEvent.BLOCK_TO_ROTATE, BlockToRotate);
         Messenger.RemoveListener(GameEvent.HANDLE_CHOSEN_CARD, HandleChosenCard);
-        Messenger.AddListener(GameEvent.ALLOW_TO_ROTATE, AllowToRotate);
-        
-        
-        
+        Messenger.RemoveListener(GameEvent.ALLOW_TO_ROTATE, AllowToRotate);
     }
 
     private void BlockToRotate()
@@ -148,7 +145,7 @@ public class CardScr : MonoBehaviour
                     weaponData = weapons[Random.Range(0, weapons.Count)];
                     UpdateFaceCard(CardType.WEAPON);
                     break;
-                }            
+                }
                 case CardType.QUEST:
                 {
                     List<QuestData> quests = LevelController.Instance.GetCurrentLevel().Quests;
@@ -160,7 +157,6 @@ public class CardScr : MonoBehaviour
         }
         catch (Exception e)
         {
-
         }
     }
 

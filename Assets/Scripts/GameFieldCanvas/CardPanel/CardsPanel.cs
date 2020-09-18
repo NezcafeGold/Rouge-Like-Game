@@ -57,7 +57,7 @@ public class CardsPanel : MonoBehaviour
     {
         Messenger.Broadcast(GameEvent.ALLOW_TO_ROTATE);
     }
-    
+
     public void ResetRotation()
     {
         transform.eulerAngles = new Vector3(0, 0, 0);

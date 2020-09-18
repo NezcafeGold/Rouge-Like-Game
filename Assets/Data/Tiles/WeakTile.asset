@@ -18,12 +18,12 @@ MonoBehaviour:
   cardList:
   - cardType: 0
     cardData: {fileID: 11400000, guid: 73c26df013b3f8249a10f8d3a4e8200c, type: 2}
-    amount: 0
+    amount: 2
   - cardType: 1
     cardData: {fileID: 11400000, guid: b7e7b44174e0d774a933c73cc0d3bdb6, type: 2}
-    amount: 0
+    amount: 2
   - cardType: 2
     cardData: {fileID: 11400000, guid: b7e7b44174e0d774a933c73cc0d3bdb6, type: 2}
-    amount: 5
+    amount: 1
   openedTile: {fileID: 21300000, guid: d45dddb21e69d214598b96b80ff2ed2d, type: 3}
   visitedTile: {fileID: 21300000, guid: d7e50095cb3f0c243bcd253944b1e70e, type: 3}
